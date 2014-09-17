@@ -1,3 +1,3 @@
-Welcome to use 2014-09-18 Shareku
+Welcome to Shareku ! 
 =================================
-Shareku Svn Firsrt Project  !
+Start 2014-09-18 Shareku Svn Firsrt Project  !
