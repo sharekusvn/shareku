@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.shareku.entity.Menu;
-import com.shareku.entity.Role;
-import com.shareku.entity.User;
-import com.shareku.service.MenuService;
-import com.shareku.service.UserService;
+import com.shareku.entity.auth.Menu;
+import com.shareku.entity.auth.Role;
+import com.shareku.entity.auth.User;
+import com.shareku.service.auth.MenuService;
+import com.shareku.service.auth.UserService;
 import com.shareku.util.Const;
 import com.shareku.util.RightsHelper;
 import com.shareku.util.Tools;
@@ -66,7 +66,7 @@ public class LoginController {
 			errInfo = "验证码输入有误！";
 		}
 		if(Tools.isEmpty(errInfo)){
-			mv.setViewName("redirect:index.html");
+			mv.setViewName("redirect:index.shtml");
 		}else{
 			mv.addObject("errInfo", errInfo);
 			mv.addObject("loginname",loginname);

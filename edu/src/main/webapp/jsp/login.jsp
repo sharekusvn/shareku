@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>XXX管理系统后台</title>
+<title>晒酷网后台管理系统</title>
 <style type="text/css">
 	body{margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;background-color: #1B3142;}
 	.header{width:100%;height:41px;background: url(images/login-top-bg.gif) repeat-x;}
@@ -33,7 +33,7 @@
 	<div class="center">
 		<div class="login_right">
 			<div style="width:100%;height:auto;margin-top:150px;">
-			<form action="login.html" method="post" name="loginForm" onsubmit="return check();">
+			<form action="login.shtml" method="post" name="loginForm" onsubmit="return check();">
 				<div class="login_title">
 					管理员登录
 				</div>
@@ -69,7 +69,7 @@
 		</div>
 	</div>
 	<div class="bottom">
-	Copyright &copy; 2011 xxx
+	Copyright &copy; 2014 晒酷网
 	</div>
 </div>
 	<script type="text/javascript">
@@ -96,7 +96,7 @@
 		}
 	
 		function changeCode(){
-			$("#codeImg").attr("src","code.html?t="+genTimestamp());
+			$("#codeImg").attr("src","code.shtml?t="+genTimestamp());
 		}
 		
 		function resetErr(){

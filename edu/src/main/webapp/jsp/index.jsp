@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>测试系统</title>
-<link type="text/css" rel="stylesheet" href="css/index.css"/>
+<title>晒酷网后台管理系统</title>
+<link type="text/css" rel="stylesheet" href="css/bg_index.css"/>
 <script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
 </head>
-<body>
+<body onresize="initRightContentHeightAndWidth();">
 	<div class="main_header">
 		<div class="header_left"></div>
 		<div class="header_right">
@@ -52,7 +52,7 @@
 				<tr>
 					<td style="background:url('images/mail_leftbg.gif') repeat-y;"></td>
 					<td style="background-color:#FAFBFD;">
-						<iframe name="mainFrame" id="mainFrame" frameborder="0" src="default.html" style="width:100%;height:100%;"></iframe>
+						<iframe name="mainFrame" id="mainFrame" frameborder="0" src="default.shtml" style="width:100%;height:100%;"></iframe>
 					</td>
 					<td style="background:url('images/mail_rightbg.gif') repeat-y;"></td>
 				</tr>
@@ -62,7 +62,7 @@
 					<td style="height:17px;background: url('images/buttom_right2.gif') no-repeat;"></td>
 				</tr>
 			</table>
-			<div class="sys_bottom"> Copyright &copy; 2011 XXX管理系统</div>
+			<div class="sys_bottom"> Copyright &copy; 2014 晒酷网后台管理系统</div>
 		</div>
 	</div>
 	
@@ -121,7 +121,7 @@ function getTime(){
 
 function logout(){
 	if(confirm("确定要退出吗？")){
-		document.location = "logout.html";
+		document.location = "logout.shtml";
 	}
 }
 </script>

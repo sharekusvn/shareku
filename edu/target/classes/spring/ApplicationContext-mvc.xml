@@ -11,11 +11,11 @@
 
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/**/*.html*" />
+			<mvc:mapping path="/**/*.shtml*" />
 			<bean class="com.shareku.interceptor.LoginHandlerInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
-			<mvc:mapping path="/**/*.html*" />
+			<mvc:mapping path="/**/*.shtml*" />
 			<bean class="com.shareku.interceptor.RightsHandlerInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

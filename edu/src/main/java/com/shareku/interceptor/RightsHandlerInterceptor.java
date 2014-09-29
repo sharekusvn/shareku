@@ -11,9 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.shareku.entity.Menu;
-import com.shareku.entity.User;
-import com.shareku.service.MenuService;
+import com.shareku.entity.auth.Menu;
+import com.shareku.entity.auth.User;
+import com.shareku.service.auth.MenuService;
 import com.shareku.util.Const;
 import com.shareku.util.RightsHelper;
 import com.shareku.util.Tools;
@@ -45,7 +45,7 @@ public class RightsHandlerInterceptor extends HandlerInterceptorAdapter{
 						regex = "/?"+arr[0]+"(/.*)?."+arr[1];
 						
 					}else{
-						regex = "/?"+menuUrl+"(/.*)?.html";
+						regex = "/?"+menuUrl+"(/.*)?.shtml";
 					}
 					if(path.matches(regex)){
 						menuId = m.getMenuId();

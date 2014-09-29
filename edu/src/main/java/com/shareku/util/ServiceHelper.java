@@ -1,8 +1,8 @@
 package com.shareku.util;
 
-import com.shareku.service.MenuService;
-import com.shareku.service.RoleService;
-import com.shareku.service.UserService;
+import com.shareku.service.auth.MenuService;
+import com.shareku.service.auth.RoleService;
+import com.shareku.service.auth.UserService;
 
 
 /**

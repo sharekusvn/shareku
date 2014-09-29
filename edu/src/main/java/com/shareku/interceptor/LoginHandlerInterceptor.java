@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.shareku.entity.User;
+import com.shareku.entity.auth.User;
 import com.shareku.util.Const;
 
 public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
@@ -23,7 +23,7 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 			if(user!=null){
 				return true;
 			}else{
-				response.sendRedirect(request.getContextPath()+"/login.html");
+				response.sendRedirect(request.getContextPath()+"/login.shtml");
 				return false;
 			}
 		}

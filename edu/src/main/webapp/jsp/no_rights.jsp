@@ -22,7 +22,7 @@
     <h1>拒绝访问此页面</h1> 
     <p>请确定有访问此页面的权限，或者管理员限制了此页面的访问。</p> 
     <p> 
-<a href="<%=request.getContextPath() %>/login.html">重新登录</a>&nbsp;&nbsp;
+<a href="<%=request.getContextPath() %>/login.shtml">重新登录</a>&nbsp;&nbsp;
 <a href="javascript:history.back(-1)">返 回</a> 
     </p> 
   </div> 

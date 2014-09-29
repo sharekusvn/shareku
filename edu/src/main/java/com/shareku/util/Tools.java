@@ -1,12 +1,29 @@
 package com.shareku.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
+/**
+ * @author cicada
+ * @version v0.1
+ * @date 2014-09-25 11:37
+ */
 public class Tools {
+
+	/**
+	 * 将流转换成字符串
+	 * @param is
+	 * @param l
+	 * @return
+	 * @throws Exception
+	 */
 	public static byte[] convertStreamToString(InputStream is,int l) throws Exception {    
 		   /*   
 		    * To convert the InputStream to String we use the BufferedReader.readLine()   
@@ -40,6 +57,7 @@ public class Tools {
 		    
 		    return result;    
 		} 
+	
 	/**
 	 * 检测字符串是否不为空(null,"","null")
 	 * @param s
@@ -122,5 +140,95 @@ public class Tools {
 		}else{
 			return "";
 		}
+	}
+	
+	/**
+	 * 将给出的文本字符串进行MD5加密处理
+	 * @param plainText
+	 * @param flag
+	 * @return 将加密后的字符串进行返回
+	 */
+	public static String getMD5(String plainText, boolean flag) {
+		String result = "";
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(plainText.getBytes());
+			byte b[] = md.digest();
+			int i;
+			StringBuffer buf = new StringBuffer("");
+			for (int offset = 0; offset < b.length; offset++)
+			{
+				i = b[offset];
+				if (i < 0) {
+					i += 256;
+				}
+				if (i < 16) {
+					buf.append("0");
+				}
+				buf.append(Integer.toHexString(i));
+			}
+			result = buf.toString();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//如果参数flag为true，则返回16位的MD5加密数据
+		return flag == true ? result.substring(8, 24) : result;
+	}
+
+	/**
+	 * 默认返回32位的密文
+	 * @param plainText
+	 * @return
+	 */
+	public static String getMD5(String plainText) {
+		return getMD5(plainText, false);
+	}
+	
+	/**
+	 * convert the stream to bytes.
+	 * @param is
+	 * @return
+	 */
+	public static byte[] convertStreamToBytes(InputStream is){
+		byte[] bResult = null;
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			byte[] buf = new byte[1024];
+			int num = -1;
+			while ((num = is.read(buf))!= -1) {
+				baos.write(buf, 0, num);
+			}
+			bResult = baos.toByteArray();
+			baos.flush();
+			baos.close();
+			is.close();
+			baos = null;
+			is = null;
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			try {
+				if (baos != null) {
+					baos.close();
+				}
+				if (is != null) {
+					is.close();
+				}
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+		return bResult;
+	}
+
+	/**
+	 * 根据指定的范围返回一个随机种子
+	 * @param min
+	 * @param max
+	 * @return
+	 */
+	public static int random(int min, int max) {
+		return new Random().nextInt(max) % (max - min + 1) + min;
 	}
 }

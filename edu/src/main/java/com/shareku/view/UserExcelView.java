@@ -14,7 +14,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
-import com.shareku.entity.User;
+import com.shareku.entity.auth.User;
 import com.shareku.util.Tools;
 
 public class UserExcelView extends AbstractExcelView{

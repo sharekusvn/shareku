@@ -1,0 +1,1383 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>列表页_晒库网</title>
+<meta name="keywords" content=",IT/计算机/互联网网络课程,IT/计算机/互联网 ,晒库网" />
+<meta name="description" content="晒库网为你提供高质量的IT/计算机/互联网 ，方面的网络课程。所有内容来自教育战线的优秀老师,拥有丰富经验的行业精英,学有所成的学术带头人，拥有特殊技能的各界人士。" />
+<link rel="shortcut icon" type="/image/x-icon" href="/favicon.ico" />
+<link rel="stylesheet" href="css/base.css" media="screen">
+<link rel="stylesheet" href="css/list.css" media="screen">
+<script src="js/jquery-1.3.2.min.js"></script>
+<!--[if IE]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+<!-- Internet Explorer .png-fix -->
+<!--[if IE 6]>
+		<script src="js/dd_belatedpng.js"></script>
+		<script>
+			DD_belatedPNG.fix('.png_bg, img');
+		</script>
+	<![endif]-->
+<script src="js/jquery.common.js"></script>
+<script src="js/functions.js"></script>
+</head>
+
+<body class="ck_list">
+<div class="topR" id="topBar">
+  <div class="wrapper"> <a href="#" class="topR_logo"></a>
+    <ul class="topR_dev">
+      <li class="liClient"><a href="javascript:;" ><i class="icoR icoR_01"></i><!--下载晒库--></a>
+       <!-- <div id="clientList" class="hasChild" style="display:none">
+          <div class="subC"> <a href="#" target="_blank">晒库网KK</a> <a href=#" target="_blank">晒库网iPhone版</a> <a href="#" target="_blank">晒库网iPad版</a> <a href="#" target="_blank">晒库网Android版</a> </div>
+        </div>-->
+      </li>
+      <li class="cart"><a href="#/?mod=cart&act=show"><i class="icoR icoR_4"></i>购物车(<i id="cartCount">0</i>)</a></li>
+    </ul>
+    <!-- =E topR_dev -->
+    <div class="topR_search">
+      <div class="inner"> <span class="tp_label"> <a href="javascript:;" id="searchType" stype="course">课程<i class="icoR icoR_5"></i></a> <span class="tp_label_sub" id="searchTypeList" style="display:none;"> <a href="javascript:;" id="courseType" stype="course">课程</a> <a href="javascript:;" id="schoolType" stype="school">学校</a> </span> </span> <span class="tp_txt">
+        <!-- 鼠标点击的时候，添加tp_txt_focus -->
+        <input type="text" prompt="请输入关键词、学校名等..." class="ipt" id="head_searchKeywords"   style="width:350px;">
+        <!--<span class="tips">请输入关键字</span>-->
+        <a class="tp_btn" href="javascript:;" title="搜索" id="head_searchSubmit"><i class="icoR icoR_6"></i></a> </span> </div>
+    </div>
+    <!-- =E topR_search -->
+    <div style="position: fixed;_position:absolute;top: 66%; z-index: 599; right: 0px;" class="rTop">
+      <ul>
+        <li class="r_weixin">
+          <div class="codeImgWrap" id="weixinCodeImg" style="background-color:#FFFFFF;display: none;"> <a href="javascript:;" id="weixinClose" class="close"></a>
+            <p class="tc mt20">轻松一扫，精彩不停</p>
+            <div class="codeImg"></div>
+          </div>
+          <a href="javascript:;" style="display: block;" id="btnWeixin" class="wx item">微信关注</a> </li>
+        <li class="r_msg"> <a href="javascript:;" id="btnFeedbask" class="item">意见反馈</a> </li>
+        <li class="r_gotop" style="display: none;"> <a href="#" id="btnGotop" class="item">返回顶部</a> </li>
+      </ul>
+    </div>
+    <div class="topR_login"> <a href="#">马上登录</a> <a href="#" target="_blank">注册</a> </div>
+    <!-- =E topR_login -->
+  </div>
+</div>
+<!-- =E topR -->
+<script>
+	function addListener(element, e, fn) {
+	    if (element.addEventListener) {
+	        element.addEventListener(e, fn, false);
+	    } else {
+	        element.attachEvent("on" + e, fn);
+	    }
+	}
+	$(function(){
+		$("li.liClient").mouseover(function(){
+			$("li.liClient > a").css('background','#179362');
+			$("#clientList").show();
+		}).mouseleave(function(){
+			$("li.liClient > a").css('background','');
+			$("#clientList").hide();
+		});
+		$("#head_searchSubmit").mouseover(function(){
+			$(this).parent().addClass('tp_txt_focus');
+		}).mouseleave(function(){
+			$(this).parent().removeClass('tp_txt_focus');
+		});
+		$(".topR_search").inputTips();
+		$("#head_searchKeywords").prev("span.iptTips").css({"left":"1px", "top":"0px"});
+
+		$("#searchType").click(function(){
+			var obj = $(this);
+			var pobj = $("#searchTypeList");
+			var course = $("#courseType").clone();
+			var school = $("#schoolType").clone();
+			obj.showMenu('#searchTypeList');
+			obj.mouseout(function(){
+				obj.hideMenu('#searchTypeList');
+			});
+			
+			pobj.find("a").click(function(){
+				var cobj = $(this);
+				obj.attr('stype', cobj.attr('stype')).html(cobj.text()+'<i class="icoR icoR_5"></i>');
+				if(cobj.attr('stype') == 'school'){
+					$("#courseType").remove();
+					$("#schoolType").after(course);
+				} else {
+					$("#schoolType").remove();
+					$("#courseType").after(school);
+				}
+				pobj.hide();
+			});
+		});
+		
+		$("#head_searchKeywords").keydown(function(event){
+			if(event.keyCode == 13){
+				$("#head_searchSubmit").trigger('click');
+			}
+		});
+		
+		$("#head_searchSubmit").click(function(){
+			var keywords = $.trim($("#head_searchKeywords").val()),
+			searchType = $("#searchType").attr('stype');
+			if(searchType == "course"){
+				if(keywords == ''){
+					searchUrl = "/course/index.html";	
+				}else{
+					searchUrl = "/course/_"+encodeURIComponent(keywords)+"_____.html";
+				}
+			}else{
+				searchUrl = "/?mod=search&act=school&keyword="+encodeURIComponent(keywords);
+			}
+			document.location.href = searchUrl;
+			return false;
+		});
+		$(window).scroll(function(){
+			if ($(window).scrollTop()>100){
+				$("li.r_gotop").fadeIn(750);
+			}else{
+				$("li.r_gotop").fadeOut(750);
+			}
+		});
+		addListener(document, "mouseover",function(evt) {
+		    var evt = window.event ? window.event: evt,
+		    target = evt.srcElement || evt.target;
+		    if(target.id == "btnWeixin") {
+		    	$("#btnWeixin").animate({left: '-66px'}, "fast");   
+		        return;
+		    }else if(target.id == "btnFeedbask"){
+		    	$("#btnFeedbask").animate({left: '-66px'}, "fast");   
+		        return;
+		    }else if(target.id == "btnGotop"){
+		    	$("#btnGotop").animate({left: '-66px'}, "fast");   
+		        return;
+		    }
+		});
+		addListener(document, "mouseout",function(evt) {
+		    var evt = window.event ? window.event: evt,
+		    target = evt.srcElement || evt.target;
+		    if(target.id == "btnWeixin") {
+		    	$("#btnWeixin").stop(true).animate({left: '0px'}, "fast");   
+		        return;
+		    }else if(target.id == "btnFeedbask"){
+		    	$("#btnFeedbask").stop(true).animate({left: '0px'}, "fast");   
+		        return;
+		    }else if(target.id == "btnGotop"){
+		    	$("#btnGotop").stop(true).animate({left: '0px'}, "fast");   
+		        return;
+		    }
+		}); 
+		
+		$("#weixinClose").click(function(){
+			$("#weixinCodeImg").hide();
+			$("#btnWeixin").css("display","block");		
+		});
+		$("#btnWeixin").click(function(){
+			$("#btnWeixin").css("display","none");
+			$("#weixinCodeImg").show();
+		});
+		$("#btnFeedbask").click(function(){
+			var popFeedbaskBox = $.skAjaxBoxy({
+				url:"/?mod=help&act=about&type=popfeed",
+				title:"意见反馈",
+				width:540,
+				height:424,
+				callbask:function(){
+					$("#cancel").click(function(){
+						popFeedbaskBox.cancel();
+					});
+					$("#FeedbaskType").change(function(){
+						$("#FeedbaskTypeErrorTips").hide();
+					});
+					$("#submit").click(function(){
+						$("#FeedbaskErrorTips,#FeedbaskTypeErrorTips").hide();
+						var type = $("#FeedbaskType").val();
+						var message = $("#FeedbaskMsg").val();
+						if(type == ''){
+							$("#FeedbaskTypeErrorTips").text('请选择问题类型').show();
+							return false;
+						}
+						if(message == ''){
+							$("#FeedbaskErrorTips").text('请填写反馈意见').show();
+							return false;
+						}
+						if(getStrActualLen(message) > 64000){
+							$("#FeedbaskErrorTips").text('反馈意见不得超过64000字符').show();
+							return false;
+						}
+						if($(this).attr('disabled') == true){
+							return false;
+						}
+						$.ajax({
+							type:"post",
+							url:"/?mod=help&act=about&type=popfeed&op=submit",
+							dataType:"json",
+							data:"type="+type+"&message="+encodeURIComponent(message),
+							beforeSend:function(){
+								$(this).attr("disabled",true);
+							},
+							success:function(ret){
+								if(ret.code == 0){
+									popFeedbaskBox.cancel();
+									$.skTipsBoxy({message:ret.data,width:300});
+								}else{
+									$(this).removeAttr("disabled");
+									alert(ret.data);
+								}
+							}
+						});
+					});
+					$("#divFbMsg").inputTips();
+					$("#FeedbaskType").divSelect(160);
+				}
+			});		
+		});
+
+					$("a.close_t").click(function(){
+			  	$("div.newBrand").slideUp();
+			  	$.cookie.set('web_notice', '1',999999999999);
+			});
+			});
+	</script>
+<div class="mainNav mb20 bc">
+  <div class="wrapper">
+    <div class="inner">
+      <div class="mn_sort">
+        <div class="mn_mt"><a href="/course/index.html">所有课程分类</a></div>
+        <div class="mn_mc" style="display:none;">
+          <div class="item">
+            <div class="i_hd"> <span class="i_hd_tit"> <a href="#/course/72351176527446016_____.html" target="_blank">编程</a
+                                    >、<a href="#/course/72351236656988160_____.html" target="_blank">设计</a
+                                    >、<a href="#/course/72351236791205888_____.html" target="_blank">IT软件</a> </span> <s class="i_hd_arr"></s> </div>
+            <div class="i_bd" style="display:none;">
+              <!-- =S categ_m -->
+              <div class="categ_m">
+                <h3><a href="#/course/72351163642544128_____.html" target="_blank">IT/互联网/计算机</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72351176527446016_____.html" target="_blank">编程语言</a></dt>
+                  <dd> <a class="c_555" href="#/course/72351176561000448_____.html" target="_blank">C/C++</a> <a href="#/course/72351176695218176_____.html" target="_blank">VC/MFC</a> <a href="#/course/72351176577777664_____.html" target="_blank">JAVA</a> <a href="#/course/72351176594554880_____.html" target="_blank">Python</a> <a href="#/course/72351176544223232_____.html" target="_blank">PHP</a> <a href="#/course/72351176628109312_____.html" target="_blank">脚本语言</a> <a href="#/course/72351176728772608_____.html" target="_blank">Objective-C</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72351236791205888_____.html" target="_blank">常用软件</a></dt>
+                  <dd> <a href="#/course/72351236791271424_____.html" target="_blank">Photoshop</a> <a href="#/course/72351236791533568_____.html" target="_blank">3Dmax</a> <a href="#/course/72351236791599104_____.html" target="_blank">Illustrator</a> <a href="#/course/72351236791402496_____.html" target="_blank">Flash</a> <a href="#/course/72351236791336960_____.html" target="_blank">Dreamwaver</a> <a href="#/course/72351236791468032_____.html" target="_blank">Maya</a> <a href="#/course/72351236791795712_____.html" target="_blank">Axure</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72351236656988160_____.html" target="_blank">设计制作</a></dt>
+                  <dd> <a href="#/course/72351236707319808_____.html" target="_blank">平面设计</a> <a href="#/course/72351236774428672_____.html" target="_blank">网站制作</a> <a href="#/course/72351236841537536_____.html" target="_blank">页面设计</a> <a href="#/course/72351236724097024_____.html" target="_blank">游戏设计</a> <a href="#/course/72351236824760320_____.html" target="_blank">三维设计</a> <a href="#/course/72351236673765376_____.html" target="_blank">CG动画</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72351180822413312_____.html" target="_blank">数 据 库</a></dt>
+                  <dd> <a href="#/course/72351180855967744_____.html" target="_blank">Oracle</a> <a href="#/course/72351180872744960_____.html" target="_blank">SQL Server</a> <a href="#/course/72351180839190528_____.html" target="_blank">MySQL</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72351189412347904_____.html" target="_blank">系统运维</a></dt>
+                  <dd> <a href="#/course/72351189429125120_____.html" target="_blank">Linux</a> <a href="#/course/72351189613674496_____.html" target="_blank">Vmware</a> <a href="#/course/72351189445902336_____.html" target="_blank">Windows</a> <a href="#/course/72351189479456768_____.html" target="_blank">网络管理</a> <a href="#/course/72351189529788416_____.html" target="_blank">Exchange</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72351202297249792_____.html" target="_blank">移动互联网</a></dt>
+                  <dd> <a href="#/course/72351202314027008_____.html" target="_blank">Android</a> <a href="#/course/72351202330804224_____.html" target="_blank">IOS</a> <a href="#/course/72351202364358656_____.html" target="_blank">Webapp</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72351210887184384_____.html" target="_blank">产品运营</a></dt>
+                  <dd> <a href="#/course/72351210903961600_____.html" target="_blank">产品设计</a> <a href="#/course/72351210920738816_____.html" target="_blank"> 网站编辑</a> <a href="#/course/72351210954293248_____.html" target="_blank">数据分析</a> <a href="#/course/72351210937516032_____.html" target="_blank">策划</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72351215182151680_____.html" target="_blank">其　　他</a></dt>
+                  <dd> <a href="#/course/72351210903961600_____.html" target="_blank">网络安全</a> <a href="#/course/72351245246922752_____.html" target="_blank">嵌入式培训</a> <a href="#/course/72351228067053568_____.html" target="_blank">移动通信</a> <a href="#/course/72351185184489472_____.html" target="_blank">云计算</a> <a href="#/course/72351185117380608_____.html" target="_blank">系统架构</a> </dd>
+                </dl>
+              </div>
+              <!-- =E categ_m -->
+              <!-- =S categ_s -->
+              <div class="categ_s">
+                <div class="lstTxt" style="display:;">
+                  <h3>推荐课程</h3>
+                  <ul>
+                    <li><a class="c_1ab177" href="#/1373478-104055.html" target="_blank">打开Swift语言编程大门</a></li>
+                    <li><a class="c_777" href="#/1358445-96451.html" target="_blank">Axure RP7.0从入门到精通</a></li>
+                    <li><a class="c_777" href="#/p98123.html" target="_blank">手游FlappyBird，零基础包会</a></li>
+                    <li><a class="c_777" href="#/1257832-93599.html" target="_blank">Dreamweaver网页制作高手养成记</a></li>
+                    <li><a class="c_777" href="#/1672610-99901.html" target="_blank">淘宝美工基础教程入门教程</a></li>
+                  </ul>
+                </div>
+                <div class="lstPic" style="display:none;">
+                  <h3>学校推荐</h3>
+                  <ul class="clearfix">
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                  </ul>
+                </div>
+                <div class="pic1" style="display:none;"> <a href="#"><img src="images/i_hd_pic_216x330.jpg" width="216" height="330" alt="" /></a> </div>
+                <ul class="pic2" style="display:;">
+                  <li><a href="#/class/photoshop" target="_blank"><img src="uploads/78ac7707c9ae781d59ef263eb351b140.jpg" width="194" height="70" alt="Photoshop神技能" /></a></li>
+                  <li><a href="#/class/code" target="_blank"><img src="uploads/b73b7b9a6c57af48b25a829a311d9ec7.jpg" width="194" height="70" alt="编程语言零基础入门" /></a></li>
+                </ul>
+              </div>
+              <!-- =S categ_s -->
+            </div>
+            <!-- =E i_bd -->
+          </div>
+          <!-- =E item -->
+          <div class="item">
+            <div class="i_hd"> <span class="i_hd_tit"> <a href="#/course/72362171643723776_____.html" target="_blank">求职</a
+                                    >、<a href="#/course/72362158758821888_____.html" target="_blank">职场</a
+                                    >、<a href="#/course/72367660611928064_____.html" target="_blank">办公软件</a> </span> <s class="i_hd_arr"></s> </div>
+            <div class="i_bd" style="display:none;">
+              <!-- =S categ_m -->
+              <div class="categ_m">
+                <h3><a href="#/course/72362158758821888_____.html" target="_blank">求职/职场</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72362171643723776_____.html" target="_blank">求　　职</a></dt>
+                  <dd> <a href="#/course/72362171677278208_____.html" target="_blank">职业规划</a> <a href="#/course/72362171710832640_____.html" target="_blank">求职简历</a> <a href="#/course/72362171727609856_____.html" target="_blank">面试技巧</a> <a href="#/course/72362171761164288_____.html" target="_blank">跳槽</a> <a href="#/course/72362171660500992_____.html" target="_blank">就业指导</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72362167348756480_____.html" target="_blank">职场技能</a></dt>
+                  <dd> <a href="#/course/72362167365599232_____.html" target="_blank">演讲与口才</a> <a href="#/course/72362167365730304_____.html" target="_blank">自我表现</a> <a href="#/course/72362167365795840_____.html" target="_blank">情绪管理</a> <a href="#/course/72362167399284736_____.html" target="_blank">总结汇报</a> <a href="#/course/72362167415865344_____.html" target="_blank">团队技能</a> <a href="#/course/72362167382310912_____.html" target="_blank">管理技能</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72362184528625664_____.html" target="_blank">企业管理</a></dt>
+                  <dd> <a href="#/course/72362184696397824_____.html" target="_blank">企业培训</a> <a href="#/course/72362184646066176_____.html" target="_blank">财务/会计</a> <a href="#/course/72362184595734528_____.html" target="_blank">人力资源管理</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72362158758821888_____.html" target="_blank">其他技能</a></dt>
+                  <dd> <a href="#/course/72362180233658368_____.html" target="_blank">创业</a> <a href="#/course/72362180233658368_____.html" target="_blank">职场礼仪</a> <a href="#/course/72362180233658368_____.html" target="_blank">领导力培训</a> </dd>
+                </dl>
+                <h3><a href="#/course/72367656316960768_____.html" target="_blank">办公技能</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72367660611928064_____.html" target="_blank">办公软件</a></dt>
+                  <dd> <a href="#/course/72367660628901888_____.html" target="_blank">word</a> <a href="#/course/72367660628836352_____.html" target="_blank">excel</a> <a href="#/course/72367660628770816_____.html" target="_blank">PPT</a> <a href="#/course/72367660629164032_____.html" target="_blank">Visio</a> <a href="#/course/72367660628967424_____.html" target="_blank">access</a> <a href="#/course/72367660645482496_____.html" target="_blank">WPS</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72367664906895360_____.html" target="_blank">电脑基础</a></dt>
+                  <dd> <a href="#/course/72367664923672576_____.html" target="_blank">基础操作</a> <a href="#/course/72367665007558656_____.html" target="_blank">电脑培训</a> <a href="#/course/72367664990781440_____.html" target="_blank">电脑选购</a> <a href="#/course/72367665024335872_____.html" target="_blank">软件技术</a> <a href="#/course/72367664974004224_____.html" target="_blank">装机技巧</a> </dd>
+                </dl>
+              </div>
+              <!-- =E categ_m -->
+              <!-- =S categ_s -->
+              <div class="categ_s">
+                <div class="lstTxt" style="display:;">
+                  <h3>推荐课程</h3>
+                  <ul>
+                    <li><a class="c_1ab177" href="#/1219509-102241.html" target="_blank">跟着案例学PPT课件制作</a></li>
+                    <li><a class="c_777" href="#/1354866-96011.html" target="_blank">Excel从零到精操作教程</a></li>
+                    <li><a class="c_777" href="#/1395435-100144.html" target="_blank">100%创业成功的秘诀</a></li>
+                    <li><a class="c_777" href="#/1621447-103387.html" target="_blank">word2013高效办公课程</a></li>
+                    <li><a class="c_777" href="#/1395435-100149.html" target="_blank">不可不知的求职秘诀</a></li>
+                  </ul>
+                </div>
+                <div class="lstPic" style="display:none;">
+                  <h3>学校推荐</h3>
+                  <ul class="clearfix">
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                  </ul>
+                </div>
+                <div class="pic1" style="display:none;"> <a href="#"><img src="images/i_hd_pic_216x330.jpg" width="216" height="330" alt="" /></a> </div>
+                <ul class="pic2" style="display:;">
+                  <li><a href="#/30088-93403.html" target="_blank"><img src="uploads/cfe5bb38173899de874e87c9d1f95e50.jpg" width="194" height="70" alt="你必须要会的PPT制作技巧" /></a></li>
+                  <li><a href="#/1090971-76249.html" target="_blank"><img src="uploads/a2efddbd0bc0f10920d741093fe62ac8.jpg" width="194" height="70" alt="不得不说的职场礼仪" /></a></li>
+                </ul>
+              </div>
+              <!-- =S categ_s -->
+            </div>
+            <!-- =E i_bd -->
+          </div>
+          <!-- =E item -->
+          <div class="item">
+            <div class="i_hd"> <span class="i_hd_tit"> <a href="#/course/72354505127100416_____.html" target="_blank">英语</a
+                                    >、<a href="#/course/72354470767362048_____.html" target="_blank">日语</a
+                                    >、<a href="#/course/72354475062329344_____.html" target="_blank">韩语</a> </span> <s class="i_hd_arr"></s> </div>
+            <div class="i_bd" style="display:none;">
+              <!-- =S categ_m -->
+              <div class="categ_m">
+                <h3><a href="#/course/72354462177427456_____.html" target="_blank">语言学习</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72354505127100416_____.html" target="_blank">英　语</a></dt>
+                  <dd> <a href="#/course/72354505445867520_____.html" target="_blank">英语口语</a> <a href="#/course/72354505479421952_____.html" target="_blank">英语词汇</a> <a href="#/course/72354505345204224_____.html" target="_blank">英语入门</a> <a href="#/course/72354505462644736_____.html" target="_blank">职场英语</a> <a href="#/course/72354505395535872_____.html" target="_blank">行业英语</a> <a href="#/course/72354505496199168_____.html" target="_blank">职称英语</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72354470767362048_____.html" target="_blank">日　语</a></dt>
+                  <dd> <a href="#/course/72354470784139264_____.html" target="_blank">日语入门</a> <a href="#/course/72354470800916480_____.html" target="_blank">日语口语</a> <a href="#/course/72354470868025344_____.html" target="_blank">日语考试</a> <a href="#/course/72354470834470912_____.html" target="_blank">日语语法</a> <a href="#/course/72354470851248128_____.html" target="_blank">日语词汇</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72354475062329344_____.html" target="_blank">韩　语</a></dt>
+                  <dd> <a href="#/course/72354475079106560_____.html" target="_blank">韩语入门</a> <a href="#/course/72354475095883776_____.html" target="_blank">韩语口语</a> <a href="#/course/72354475146215424_____.html" target="_blank">韩语语法</a> <a href="#/course/72354475129438208_____.html" target="_blank">韩语词汇</a> <a href="#/course/72354475162992640_____.html" target="_blank">韩语考试</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72354479357296640_____.html" target="_blank">法　语</a></dt>
+                  <dd> <a href="#/course/72354479374073856_____.html" target="_blank">法语入门</a> <a href="#/course/72354479390851072_____.html" target="_blank">法语口语</a> <a href="#/course/72354479407628288_____.html" target="_blank">法语词汇</a> <a href="#/course/72354479457959936_____.html" target="_blank">法语考试</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72354496537165824_____.html" target="_blank">小语种</a></dt>
+                  <dd> <a href="#/course/72354500832133120_____.html" target="_blank">粤语</a> <a href="#/course/72354483652263936_____.html" target="_blank">德语</a> <a href="#/course/72354487947231232_____.html" target="_blank">西班牙语</a> <a href="#/course/72354466472394752_____.html" target="_blank">汉语</a> <a href="#/course/72354496537165824_____.html" target="_blank">其他</a> </dd>
+                </dl>
+              </div>
+              <!-- =E categ_m -->
+              <!-- =S categ_s -->
+              <div class="categ_s">
+                <div class="lstTxt" style="display:;">
+                  <h3>推荐课程</h3>
+                  <ul>
+                    <li><a class="c_1ab177" href="#/1020057-105189.html" target="_blank">这次真正爱上日语！</a></li>
+                    <li><a class="c_777" href="#/1257953-102186.html" target="_blank">英语烂的童鞋看这里>></a></li>
+                    <li><a class="c_777" href="#/1887062-104661.html" target="_blank">韩语入门，就这么简单</a></li>
+                    <li><a class="c_777" href="#/1032537-76073.html" target="_blank">法语交际口语，这造吗？</a></li>
+                  </ul>
+                </div>
+                <div class="lstPic" style="display:none;">
+                  <h3>学校推荐</h3>
+                  <ul class="clearfix">
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                  </ul>
+                </div>
+                <div class="pic1" style="display:none;"> <a href="#"><img src="images/i_hd_pic_216x330.jpg" width="216" height="330" alt="" /></a> </div>
+                <ul class="pic2" style="display:;">
+                  <li><a href="#/class/usa/" target="_blank"><img src="uploads/a2a6fb93d6fae941fac7c62d931c4afe.jpg" width="194" height="70" alt="兴趣学英语 这里是USA" /></a></li>
+                  <li><a href="#/class/japanese/" target="_blank"><img src="uploads/8943e83a0c0c1405fdd39417a788544c.jpg" width="194" height="70" alt="二次元里学地道日语" /></a></li>
+                </ul>
+              </div>
+              <!-- =S categ_s -->
+            </div>
+            <!-- =E i_bd -->
+          </div>
+          <!-- =E item -->
+          <div class="item">
+            <div class="i_hd"> <span class="i_hd_tit"> <a href="#/course/72366556805332992_____.html" target="_blank">营销</a
+                                    >、<a href="#/course/72348990389092352_____.html" target="_blank">理财</a
+                                    >、<a href="#/course/72355561689055232_____.html" target="_blank">专业技能</a> </span> <s class="i_hd_arr"></s> </div>
+            <div class="i_bd" style="display:none;">
+              <!-- =S categ_m -->
+              <div class="categ_m">
+                <h3><a href="#/course/72348964619288576_____.html" target="_blank">金融管理类</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72348990389092352_____.html" target="_blank">金融投资</a></dt>
+                  <dd> <a href="#/course/72348990439424000_____.html" target="_blank">理财</a> <a href="#/course/72348990405869568_____.html" target="_blank">基金</a> <a href="#/course/72348990472978432_____.html" target="_blank">黄金</a> <a href="#/course/72349029060575232______.html" target="_blank">股票</a> <a href="#/course/72349029094129664______.html" target="_blank">期货</a> <a href="#/course/72349024748830720______.html" target="_blank">保险</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72349020453863424_____.html" target="_blank">管 理 类</a></dt>
+                  <dd> <a href="#/course/72349020470640640_____.html" target="_blank">工商管理</a> <a href="#/course/72349020504195072_____.html" target="_blank">旅游管理</a> <a href="#/course/72349020487417856_____.html" target="_blank">公共管理</a> <a href="#/course/72349020453863424_____.html" target="_blank">其他</a> </dd>
+                </dl>
+                <h3><a href="#/course/72366556805332992_____.html" target="_blank">市场/营销</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72366565395267584_____.html" target="_blank">网络营销</a></dt>
+                  <dd> <a href="#/course/72366565412044800_____.html" target="_blank">SEO</a> <a href="#/course/72366565428822016_____.html" target="_blank">SEM</a> <a href="#/course/72366565445599232_____.html" target="_blank">EDM</a> <a href="#/course/72366565462376448_____.html" target="_blank">SNS</a> <a href="#/course/72366565529485312_____.html" target="_blank">淘宝营销</a> <a href="#/course/72366565479153664_____.html" target="_blank">微信营销</a> <a href="#/course/72366565646925824_____.html" target="_blank">数据库营销</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72366561100300288_____.html" target="_blank">市场销售</a></dt>
+                  <dd> <a href="#/course/72366561133854720_____.html" target="_blank">电子商务</a> <a href="#/course/72366561117077504_____.html" target="_blank">对外贸易</a> <a href="#/course/72366561150631936_____.html" target="_blank">市场营销</a> <a href="#/course/72366561234518016_____.html" target="_blank">推销/促销</a> <a href="#/course/72366561251295232_____.html" target="_blank">销售</a> </dd>
+                </dl>
+                <h3><a href="#/course/72355561689055232_____.html" target="_blank">更多技能</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72355570278989824_____.html" target="_blank">医疗保健</a></dt>
+                  <dd> <a href="#/course/72355570312544256_____.html" target="_blank">中医</a> <a href="#/course/72355570329321472_____.html" target="_blank">西医</a> <a href="#/course/72355570362875904_____.html" target="_blank">临床医学</a> <a href="#/course/72355570346098688_____.html" target="_blank">医药</a> <a href="#/course/72355570396430336_____.html" target="_blank">保健/养生</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72355565984022528_____.html" target="_blank">其　　他</a></dt>
+                  <dd> <a href="#/course/72355574573957120_____.html" target="_blank">师资培训</a> <a href="#/course/72355587458859008_____.html" target="_blank">自动化</a> <a href="#/course/72355583163891712_____.html" target="_blank">电子</a> <a href="#/course/72355578868924416_____.html" target="_blank">文体教育</a> <a href="#/course/72367669201862656_____.html" target="_blank">驾驶技术</a> </dd>
+                </dl>
+              </div>
+              <!-- =E categ_m -->
+              <!-- =S categ_s -->
+              <div class="categ_s">
+                <div class="lstTxt" style="display:;">
+                  <h3>推荐课程</h3>
+                  <ul>
+                    <li><a class="c_1ab177" href="#/1404350-99062.html" target="_blank">微信营销：微信营销入门的几个要点</a></li>
+                    <li><a class="c_777" href="#/1212527-95293.html" target="_blank">小白理财入门篇9堂课</a></li>
+                    <li><a class="c_777" href="#/1672610-99901.html" target="_blank">淘宝美工基础教程入门教程</a></li>
+                  </ul>
+                </div>
+                <div class="lstPic" style="display:none;">
+                  <h3>学校推荐</h3>
+                  <ul class="clearfix">
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                  </ul>
+                </div>
+                <div class="pic1" style="display:none;"> <a href="#/1019545-94648.html"><img src="uploads/97863e08b7417bb95e95477f7a152240.jpg" width="216" height="200" alt="如何有效促销系列课" /></a> </div>
+                <ul class="pic2" style="display:;">
+                  <li><a href="#/1019545-94648.html" target="_blank"><img src="uploads/446164e21bd67d9bebeb0d71864640c1.jpg" width="194" height="190" alt="如何有效促销系列课" /></a></li>
+                </ul>
+              </div>
+              <!-- =S categ_s -->
+            </div>
+            <!-- =E i_bd -->
+          </div>
+          <!-- =E item -->
+          <div class="item">
+            <div class="i_hd"> <span class="i_hd_tit"> <a href="#/course/72365465935151104_____.html" target="_blank">会计</a
+                                    >、<a href="#/course/72365466034765824_____.html" target="_blank">司考</a
+                                    >、<a href="#/course/72365465917652992_____.html" target="_blank">建造师</a> </span> <s class="i_hd_arr"></s> </div>
+            <div class="i_bd" style="display:none;">
+              <!-- =S categ_m -->
+              <div class="categ_m">
+                <h3><a href="#/course/72365465883639808_____.html" target="_blank">资格考试</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365465933971456_____.html" target="_blank">财会考试</a></dt>
+                  <dd> <a href="#/course/72365465935151104_____.html" target="_blank">会计证</a> <a href="#/course/72365465934102528_____.html" target="_blank">会计职称</a> <a href="#/course/72365465934036992_____.html" target="_blank">会计资格</a> <a href="#/course/72365465934168064_____.html" target="_blank">注册会计师</a> <a href="#/course/72365465935085568_____.html" target="_blank">美国会计考试</a> <a href="#/course/72365465934888960_____.html" target="_blank">ACCA</a> <a href="#/course/72365465934233600_____.html" target="_blank">注册税务师</a> <a href="#/course/72365465934495744_____.html" target="_blank">审计师</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365465917194240_____.html" target="_blank">建造考试</a></dt>
+                  <dd> <a href="#/course/72365465917456384_____.html" target="_blank">室内设计师</a> <a href="#/course/72365465917652992_____.html" target="_blank">一级建造师</a> <a href="#/course/72365465917718528_____.html" target="_blank">二级建造师</a> <a href="#/course/72365465917980672_____.html" target="_blank">监理工程师</a> <a href="#/course/72365465917784064_____.html" target="_blank">建筑师</a> <a href="#/course/72365465917259776_____.html" target="_blank">项目管理师</a> <a href="#/course/72365465918177280_____.html" target="_blank">咨询工程师</a> <a href="#/course/72365465917849600_____.html" target="_blank">造价师</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365465984303104_____.html" target="_blank">金融考试</a></dt>
+                  <dd> <a href="#/course/72365465984499712_____.html" target="_blank">银行从业资格</a> <a href="#/course/72365465984761856_____.html" target="_blank">经济师</a> <a href="#/course/72365465984630784_____.html" target="_blank">金融分析师</a> <a href="#/course/72365465984827392_____.html" target="_blank">理财规划师</a> <a href="#/course/72365465984958464_____.html" target="_blank">精算师</a> <a href="#/course/72365465984696320_____.html" target="_blank">证券从业资格</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365465967525888_____.html" target="_blank">医药考试</a></dt>
+                  <dd> <a href="#/course/72365465967656960_____.html" target="_blank">执业药师</a> <a href="#/course/72365465967591424_____.html" target="_blank">执业医师</a> <a href="#/course/72365465967788032_____.html" target="_blank">护士资格</a> <a href="#/course/72365465967722496_____.html" target="_blank">卫生资格</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365466017857536_____.html" target="_blank">企业管理类</a></dt>
+                  <dd> <a href="#/course/72365466017923072_____.html" target="_blank">人力资源师</a> <a href="#/course/72365466018054144_____.html" target="_blank">法律顾问</a> <a href="#/course/72365466017988608_____.html" target="_blank">企业培训师</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365466034634752_____.html" target="_blank">职业资格类</a></dt>
+                  <dd> <a href="#/course/72365466034765824_____.html" target="_blank">司法考试</a> <a href="#/course/72365466034700288_____.html" target="_blank">教师资格证</a> <a href="#/course/72365466034831360_____.html" target="_blank">其他</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365465950748672_____.html" target="_blank">IT类考试</a></dt>
+                  <dd> <a href="#/course/72365465950814208_____.html" target="_blank">资格认证</a> <a href="#/course/72365465950879744_____.html" target="_blank">软件水平考试</a> <a href="#/course/72365465950945280_____.html" target="_blank">职称考试</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365465900417024_____.html" target="_blank">其　　他</a></dt>
+                  <dd> <a href="#/course/72365465900810240_____.html" target="_blank">营养师</a> <a href="#/course/72365465900941312_____.html" target="_blank">心理咨询师</a> <a href="#/course/72365465900679168_____.html" target="_blank">秘书资格证</a> <a href="#/course/72365466001080320_____.html" target="_blank">物流师</a> </dd>
+                </dl>
+              </div>
+              <!-- =E categ_m -->
+              <!-- =S categ_s -->
+              <div class="categ_s">
+                <div class="lstTxt" style="display:;">
+                  <h3>推荐课程</h3>
+                  <ul>
+                    <li><a class="c_1ab177" href="#/1440953-99413.html" target="_blank">2014护士考前冲刺班——妇科</a></li>
+                    <li><a class="c_777" href=" #/1752058-105201.html" target="_blank">执业药师药物化学冲刺习题精讲</a></li>
+                    <li><a class="c_777" href="#/1244205-95447.html" target="_blank">会计从业资格零基础一次通过</a></li>
+                    <li><a class="c_777" href="#/1121488-105325.html" target="_blank">CPA会计精讲之资产减值</a></li>
+                  </ul>
+                </div>
+                <div class="lstPic" style="display:none;">
+                  <h3>学校推荐</h3>
+                  <ul class="clearfix">
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                  </ul>
+                </div>
+                <div class="pic1" style="display:none;"> <a href="#"><img src="images/i_hd_pic_216x330.jpg" width="216" height="330" alt="" /></a> </div>
+                <ul class="pic2" style="display:;">
+                  <li><a href="#/course/72365465967525888_____.html" target="_blank"><img src="uploads/09fa2a0ad54b47bdeb083d23c05658e9.jpg" width="194" height="190" alt="医考看这里" /></a></li>
+                </ul>
+              </div>
+              <!-- =S categ_s -->
+            </div>
+            <!-- =E i_bd -->
+          </div>
+          <!-- =E item -->
+          <div class="item">
+            <div class="i_hd"> <span class="i_hd_tit"> <a href="#/course/72365474490351616_____.html" target="_blank">国考</a
+                                    >、<a href="#/course/72365474507128832_____.html" target="_blank">省考</a
+                                    >、<a href="#/course/72365470178607104_____.html" target="_blank">学历教育</a> </span> <s class="i_hd_arr"></s> </div>
+            <div class="i_bd" style="display:none;">
+              <!-- =S categ_m -->
+              <div class="categ_m">
+                <h3><a href="#/course/72365474473574400_____.html" target="_blank">公务员</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365474490351616_____.html" target="_blank">国　　考</a></dt>
+                  <dd> <a href="#/course/72365474490482688_____.html" target="_blank">申论</a> <a href="#/course/72365474490417152_____.html" target="_blank">行测</a> <a href="#/course/72365474490548224_____.html" target="_blank">面试</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365474507128832_____.html" target="_blank">省　　考</a></dt>
+                  <dd> <a href="#/course/72365474507259904_____.html" target="_blank">申论</a> <a href="#/course/72365474507194368_____.html" target="_blank">行测</a> <a href="#/course/72365474507325440_____.html" target="_blank">面试</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365474473574400_____.html" target="_blank">其　　他</a></dt>
+                  <dd> <a href="#/course/72365474624569344_____.html" target="_blank">在职公务员</a> <a href="#/course/72365474607792128_____.html" target="_blank">军转干</a> <a href="#/course/72365474523906048_____.html" target="_blank">公选干</a> <a href="#/course/72365474591014912_____.html" target="_blank">政法干警</a> </dd>
+                </dl>
+                <h3><a href="#/course/72365470178607104_____.html" target="_blank">更多考试</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365470178607104_____.html" target="_blank">学历教育</a></dt>
+                  <dd> <a href="#/course/72365470212161536_____.html" target="_blank">自学考试</a> <a href="#/course/72365470195384320_____.html" target="_blank">成人高考</a> <a href="#/course/72365470228938752_____.html" target="_blank">在职研究生</a> <a href="#/course/72365470245715968_____.html" target="_blank">其他</a> </dd>
+                </dl>
+              </div>
+              <!-- =E categ_m -->
+              <!-- =S categ_s -->
+              <div class="categ_s">
+                <div class="lstTxt" style="display:;">
+                  <h3>推荐课程</h3>
+                  <ul>
+                    <li><a class="c_1ab177" href="#/1343848-94537.html" target="_blank">国考专项精讲-行测</a></li>
+                    <li><a class="c_777" href="#/1343848-95992.html" target="_blank">学习十八届三中全会公报</a></li>
+                    <li><a class="c_1ab177" href="#/1459171-99896.html" target="_blank">成人高考英语（本科）</a></li>
+                    <li><a class="c_777" href="#/1459171-99679.html" target="_blank">成人高考数学（专科）</a></li>
+                  </ul>
+                </div>
+                <div class="lstPic" style="display:none;">
+                  <h3>学校推荐</h3>
+                  <ul class="clearfix">
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                  </ul>
+                </div>
+                <div class="pic1" style="display:none;"> <a href="#/course/72365474490351616_____.html"><img src="images/i_hd_pic_216x330.jpg" width="216" height="330" alt="备战国考" /></a> </div>
+                <ul class="pic2" style="display:;">
+                  <li><a href="#/course/72365474490351616_____.html" target="_blank"><img src="uploads/46b9f2e2e78ae09ef9a100fdeb454b62.jpg" width="194" height="170" alt="备战国考" /></a></li>
+                </ul>
+              </div>
+              <!-- =S categ_s -->
+            </div>
+            <!-- =E i_bd -->
+          </div>
+          <!-- =E item -->
+          <div class="item">
+            <div class="i_hd"> <span class="i_hd_tit"> <a href="#/course/72363262934515712_____.html" target="_blank">高考</a
+                                    >、<a href="#/course/72363267179151360_____.html" target="_blank">中考</a
+                                    >、<a href="#/course/72363271507673088_____.html" target="_blank">小升初</a> </span> <s class="i_hd_arr"></s> </div>
+            <div class="i_bd" style="display:none;">
+              <!-- =S categ_m -->
+              <div class="categ_m">
+                <h3><a href="#/course/72363258270449664_____.html" target="_blank">中小学</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72363262565416960_____.html" target="_blank">高　　中</a></dt>
+                  <dd> <a href="#/course/72363262884184064_____.html" target="_blank">高一</a> <a href="#/course/72363262900961280_____.html" target="_blank">高二</a> <a href="#/course/72363262917738496_____.html" target="_blank">高三</a> <a href="#/course/72363262934515712_____.html" target="_blank">高考</a> <a href="#/course/72363262867406848_____.html" target="_blank">素质教育</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72363266860384256_____.html" target="_blank">初　　中</a></dt>
+                  <dd> <a href="#/course/72363267128819712_____.html" target="_blank">初一</a> <a href="#/course/72363267145596928_____.html" target="_blank">初二</a> <a href="#/course/72363267162374144_____.html" target="_blank">初三</a> <a href="#/course/72363267179151360_____.html" target="_blank">中考</a> <a href="#/course/72363267112042496_____.html" target="_blank">素质教育</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72363271155351552_____.html" target="_blank">小　　学</a></dt>
+                  <dd> <a href="#/course/72363271390232576_____.html" target="_blank">学前班</a> <a href="#/course/72363271407009792_____.html" target="_blank">一年级</a> <a href="#/course/72363271423787008_____.html" target="_blank">二年级</a> <a href="#/course/72363271440564224_____.html" target="_blank">三年级</a> <a href="#/course/72363271457341440_____.html" target="_blank">四年级</a> <a href="#/course/72363271474118656_____.html" target="_blank">五年级</a> <a href="#/course/72363271490895872_____.html" target="_blank">六年级</a> <a href="#/course/72363271507673088_____.html" target="_blank">小升初</a> <a href="#/course/72363271373455360_____.html" target="_blank">素质教育</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72363279745286144_____.html" target="_blank">品牌专区</a></dt>
+                  <dd> <a href="#/course/72363279762063360_____.html" target="_blank">新概念</a> <a href="#/course/72363279795617792_____.html" target="_blank">三一口语</a> <a href="#/course/72363279778840576_____.html" target="_blank">剑桥英语</a> </dd>
+                </dl>
+                <h3><a href="#/course/72363275450318848_____.html" target="_blank">家长专区</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72363275467096064_____.html" target="_blank">早期教育</a></dt>
+                  <dd> <a href="#/course/72363275467882496_____.html" target="_blank">智慧父母</a> <a href="#/course/72363275467161600_____.html" target="_blank">幼儿里程</a> <a href="#/course/72363275467423744_____.html" target="_blank">亲子共读</a> <a href="#/course/72363275467358208_____.html" target="_blank">能力开发</a> <a href="#/course/72363275467292672_____.html" target="_blank">家庭医生</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72363275483873280_____.html" target="_blank">小学教育</a></dt>
+                  <dd> <a href="#/course/72363275484004352_____.html" target="_blank">父母教育</a> <a href="#/course/72363275484200960_____.html" target="_blank">家校结合</a> <a href="#/course/72363275483938816_____.html" target="_blank">心理辅导</a> <a href="#/course/72363275484266496_____.html" target="_blank">能力提升</a> <a href="#/course/72363275484069888_____.html" target="_blank">亲子沟通</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72363275500650496_____.html" target="_blank">初中教育</a></dt>
+                  <dd> <a href="#/course/72363275500847104_____.html" target="_blank">家教艺术</a> <a href="#/course/72363275500716032_____.html" target="_blank">升学择校</a> <a href="#/course/72363275500781568_____.html" target="_blank">成长交流</a> <a href="#/course/72363275501043712_____.html" target="_blank">课业辅导</a> <a href="#/course/72363275500978176_____.html" target="_blank">少男少女</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72363275517427712_____.html" target="_blank">高中教育</a></dt>
+                  <dd> <a href="#/course/72363275517755392_____.html" target="_blank">高考专题</a> <a href="#/course/72363275517558784_____.html" target="_blank">心理解密</a> <a href="#/course/72363275517689856_____.html" target="_blank">沟通交流</a> <a href="#/course/72363275517493248_____.html" target="_blank">花季雨季</a> <a href="#/course/72363275517820928_____.html" target="_blank">招考指南</a>
+                    </li>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72363275534204928_____.html">青 春 期</a></dt>
+                  <dd> <a href="#/course/72363275534467072_____.html" target="_blank">沟通交流</a> <a href="#/course/72363275534532608_____.html" target="_blank">心理解密</a> <a href="#/course/72363275534270464_____.html" target="_blank">亲情港湾</a> </dd>
+                </dl>
+              </div>
+              <!-- =E categ_m -->
+              <!-- =S categ_s -->
+              <div class="categ_s">
+                <div class="lstTxt" style="display:;">
+                  <h3>推荐课程</h3>
+                  <ul>
+                    <li><a class="c_1ab177" href="#/1712733-103397.html" target="_blank">高一数学轻松入门</a></li>
+                    <li><a class="c_777" href="#/33558-93041.html" target="_blank">小学奥数计算专题</a></li>
+                    <li><a class="c_777" href="#/1290515-105225.html" target="_blank">高中物理力学基本功</a></li>
+                    <li><a class="c_777" href="#/33558-103248.html" target="_blank">初一数学知识点精讲</a></li>
+                    <li><a class="c_777" href="#/1273755-95710.html" target="_blank">教出成功又幸福的孩子</a></li>
+                  </ul>
+                </div>
+                <div class="lstPic" style="display:none;">
+                  <h3>学校推荐</h3>
+                  <ul class="clearfix">
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                  </ul>
+                </div>
+                <div class="pic1" style="display:none;"> <a href="#"><img src="images/i_hd_pic_216x330.jpg" width="216" height="330" alt="" /></a> </div>
+                <ul class="pic2" style="display:;">
+                  <li><a href="#/class/kids" target="_blank"><img src="uploads/8e4fb28d5028734ff6ebea065fb9e598.jpg" width="194" height="225" alt="孩子皆是宝  这样教育很重要" /></a></li>
+                </ul>
+              </div>
+              <!-- =S categ_s -->
+            </div>
+            <!-- =E i_bd -->
+          </div>
+          <!-- =E item -->
+          <div class="item">
+            <div class="i_hd"> <span class="i_hd_tit"> <a href="#/course/72365461605449728_____.html" target="_blank">考研</a
+                                    >、<a href="#/course/72365461622226944_____.html" target="_blank">四六级</a
+                                    >、<a href="#/course/72365461639004160_____.html" target="_blank">计算机等考</a> </span> <s class="i_hd_arr"></s> </div>
+            <div class="i_bd" style="display:none;">
+              <!-- =S categ_m -->
+              <div class="categ_m">
+                <h3><a href="#/course/72365461588672512_____.html" target="_blank">大学生考试</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365461605449728_____.html" target="_blank">考　　研</a></dt>
+                  <dd> <a href="#/course/72365461605580800_____.html" target="_blank">考研英语</a> <a href="#/course/72365461605515264_____.html" target="_blank">考研数学</a> <a href="#/course/72365461605646336_____.html" target="_blank">考研政治</a> <a href="#/course/72365461605711872_____.html" target="_blank">专业课</a> <a href="#/course/72365461605777408_____.html" target="_blank">复试/调剂</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365461622226944_____.html" target="_blank">四 六 级</a></dt>
+                  <dd> <a href="#/course/72365461622292480_____.html" target="_blank">CET-4</a> <a href="#/course/72365461622358016_____.html" target="_blank">CET-6</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365461639004160_____.html" target="_blank">等级考试</a></dt>
+                  <dd> <a href="#/course/72365461639069696_____.html" target="_blank">计算机二级</a> <a href="#/course/72365461639135232_____.html" target="_blank">计算机三级</a> </dd>
+                </dl>
+              </div>
+              <!-- =E categ_m -->
+              <!-- =S categ_s -->
+              <div class="categ_s">
+                <div class="lstTxt" style="display:;">
+                  <h3>推荐课程</h3>
+                  <ul>
+                    <li><a class="c_1ab177" href="#/1122202-105345.html" target="_blank">英语单词和他的小伙伴们</a></li>
+                    <li><a class="c_777" href="#/1122202-105336.html" target="_blank">2015年考研数学大题综合讲解</a></li>
+                    <li><a class="c_777" href="#/1571694-97891.html" target="_blank">C语言等级考试一次通关</a></li>
+                    <li><a class="c_777" href="#/1020057-103702.html" target="_blank">考研日语完形专项课</a></li>
+                  </ul>
+                </div>
+                <div class="lstPic" style="display:none;">
+                  <h3>学校推荐</h3>
+                  <ul class="clearfix">
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                  </ul>
+                </div>
+                <div class="pic1" style="display:none;"> <a href="#"><img src="images/i_hd_pic_216x330.jpg" width="216" height="330" alt="" /></a> </div>
+                <ul class="pic2" style="display:;">
+                  <li><a href="#/1198943-87925.html"><img src="uploads/8317336d02265cdac86a0fe4c1dd4038.jpg" width="194" height="170" alt="英语写作必备" /></a></li>
+                </ul>
+              </div>
+              <!-- =S categ_s -->
+            </div>
+            <!-- =E i_bd -->
+          </div>
+          <!-- =E item -->
+          <div class="item">
+            <div class="i_hd"> <span class="i_hd_tit"> <a href="#/course/72365461605449728_____.html" target="_blank">雅思</a
+                                    >、<a href="#/course/72365478886113280_____.html" target="_blank">托福</a
+                                    >、<a href="#/course/72365478869204992_____.html" target="_blank">留学指导</a> </span> <s class="i_hd_arr"></s> </div>
+            <div class="i_bd" style="display:none;">
+              <!-- =S categ_m -->
+              <div class="categ_m">
+                <h3><a href="#/course/72365478768541696_____.html" target="_blank">出国留学</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365478885982208_____.html" target="_blank">留学考试</a></dt>
+                  <dd> <a href="#/course/72365478886047744_____.html" target="_blank">雅思</a> <a href="#/course/72365478886113280_____.html" target="_blank">托福</a> <a href="#/course/72365478886178816_____.html" target="_blank">GRE</a> <a href="#/course/72365478886309888_____.html" target="_blank">SAT</a> <a href="#/course/72365478886440960_____.html" target="_blank">SSAT</a> <a href="#/course/72365478886244352_____.html" target="_blank">GMAT</a> <a href="#/course/72365478886506496_____.html" target="_blank">AP</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365478869204992_____.html" target="_blank">留学技巧</a></dt>
+                  <dd> <a href="#/course/72365478869401600_____.html" target="_blank">留学面试</a> <a href="#/course/72365478869270528_____.html" target="_blank">留学申请</a> <a href="#/course/72365478869336064_____.html" target="_blank">留学择校</a> <a href="#/course/72365478869467136_____.html" target="_blank">留学签证</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72365478869204992_____.html" target="_blank">留学指导</a></dt>
+                  <dd> <a href="#/course/72365478869729280_____.html" target="_blank">澳洲留学</a> <a href="#/course/72365478869598208_____.html" target="_blank">亚洲留学</a> <a href="#/course/72365478869663744_____.html" target="_blank">欧洲留学</a> <a href="#/course/72365478869532672_____.html" target="_blank">美洲留学</a> </dd>
+                </dl>
+              </div>
+              <!-- =E categ_m -->
+              <!-- =S categ_s -->
+              <div class="categ_s">
+                <div class="lstTxt" style="display:;">
+                  <h3>推荐课程</h3>
+                  <ul>
+                    <li><a class="c_777" href="#/1126564-103854.html" target="_blank">留学申请之秘籍宝典</a></li>
+                    <li><a class="c_777" href="#/1160323-99041.html" target="_blank">水哥谈留学</a></li>
+                    <li><a class="c_777" href="#/1160323-99041.html" target="_blank">日本留学那些事</a></li>
+                    <li><a class="c_777" href="#/1324391-102657.html" target="_blank">AP化学24课时5分精讲课</a></li>
+                  </ul>
+                </div>
+                <div class="lstPic" style="display:none;">
+                  <h3>学校推荐</h3>
+                  <ul class="clearfix">
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                  </ul>
+                </div>
+                <div class="pic1" style="display:none;"> <a href="#/class/quebec/" target="_blank"><img src="uploads/d414c473dc7d1be0ec6e5ca3dd74c9b3.jpg" width="216" height="165" alt="留学移民你需要知道的那些事" /></a> </div>
+                <ul class="pic2" style="display:;">
+                  <li><a href="#/class/quebec/"><img src="uploads/d1121f0518a53bee19c71109a4409eb0.jpg" width="194" height="170" alt="留学移民你需要知道的那些事" /></a></li>
+                </ul>
+              </div>
+              <!-- =S categ_s -->
+            </div>
+            <!-- =E i_bd -->
+          </div>
+          <!-- =E item -->
+          <div class="item">
+            <div class="i_hd"> <span class="i_hd_tit"> <a href="#/course/72364374961946624_____.html" target="_blank">生活</a
+                                    >、<a href="#/course/72364362077044736_____.html" target="_blank">文化</a
+                                    >、<a href="#/course/72364366372012032_____.html" target="_blank">兴趣</a> </span> <s class="i_hd_arr"></s> </div>
+            <div class="i_bd" style="display:none;">
+              <!-- =S categ_m -->
+              <div class="categ_m">
+                <h3><a href="#/course/72364357782077440_____.html" target="_blank">文化/生活/兴趣</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72364374961946624_____.html" target="_blank">生活技巧</a></dt>
+                  <dd> <a href="#/course/72364374995501056_____.html" target="_blank">美食</a> <a href="#/course/72364374978723840_____.html" target="_blank">化妆</a> <a href="#/course/72364374978723840_____.html" target="_blank">服饰</a> <a href="#/course/72364375045832704_____.html" target="_blank">购物</a> <a href="#/course/72364375062609920_____.html" target="_blank">婚恋讲堂</a> <a href="#/course/72364375096164352_____.html" target="_blank">生存逃生</a> <a href="#/course/72364375079387136_____.html" target="_blank">孕妇培训</a> <a href="#/course/72364375012278272_____.html" target="_blank">社交礼仪</a> <a href="#/course/72364375029055488_____.html" target="_blank">其它</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72364362077044736_____.html" target="_blank">文化艺术</a></dt>
+                  <dd> <a href="#/course/72364362093821952_____.html" target="_blank">国学</a> <a href="#/course/72364362110599168_____.html" target="_blank">文学</a> <a href="#/course/72364362278371328_____.html" target="_blank">美术/绘画</a> <a href="#/course/72364362228039680_____.html" target="_blank">乐器/乐理</a> <a href="#/course/72364362228039680_____.html" target="_blank">音乐</a> <a href="#/course/72364362211262464_____.html" target="_blank">影视</a> <a href="#/course/72364362295148544_____.html" target="_blank">其它</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72364366372012032_____.html" target="_blank">兴趣爱好</a></dt>
+                  <dd> <a href="#/course/72364366439120896_____.html" target="_blank">摄影</a> <a href="#/course/72364366388789248_____.html" target="_blank">旅游</a> <a href="#/course/72364366590115840_____.html" target="_blank">星座</a> <a href="#/course/72364366590246912_____.html" target="_blank">塔罗牌</a> <a href="#/course/72364366674001920_____.html" target="_blank">动漫</a> <a href="#/course/72364366640513024_____.html" target="_blank">围棋</a> <a href="#/course/72364366640578560_____.html" target="_blank">象棋</a> <a href="#/course/72364366623670272_____.html" target="_blank">游戏</a> <a href="#/course/72364366506229760_____.html" target="_blank">健身</a> <a href="#/course/72364366506360832_____.html" target="_blank">瑜伽</a> <a href="#/course/72364366506295296_____.html" target="_blank">羽毛球</a> <a href="#/course/72364366690779136_____.html" target="_blank">舞蹈</a> <a href="#/course/72364366405566464_____.html" target="_blank">汽车</a> <a href="#/course/72364366523006976_____.html" target="_blank">手工DIY</a> <a href="#/course/72364366657224704_____.html" target="_blank">其他</a> </dd>
+                </dl>
+              </div>
+              <!-- =E categ_m -->
+              <!-- =S categ_s -->
+              <div class="categ_s">
+                <div class="lstTxt" style="display:;">
+                  <h3>推荐课程</h3>
+                  <ul>
+                    <li><a class="c_1ab177" href="#/1436179-105209.html" target="_blank">你真的会穿衣打扮吗</a></li>
+                    <li><a class="c_777" href="#/1374325-104648.html" target="_blank">几招练就好声音</a></li>
+                    <li><a class="c_777" href="#/1395435-100144.html" target="_blank">超卡哇伊的手绘</a></li>
+                    <li><a class="c_777" href="#/1800632-105379.html" target="_blank">哇，好性感的肚皮舞</a></li>
+                    <li><a class="c_777" href="#/1312490-102601.html" target="_blank">摄影构图基础，你造吗？</a></li>
+                  </ul>
+                </div>
+                <div class="lstPic" style="display:none;">
+                  <h3>学校推荐</h3>
+                  <ul class="clearfix">
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                  </ul>
+                </div>
+                <div class="pic1" style="display:none;"> <a href="#"><img src="images/i_hd_pic_216x330.jpg" width="216" height="330" alt="" /></a> </div>
+                <ul class="pic2" style="display:;">
+                  <li><a href="#/class/photo" target="_blank"><img src="uploads/1c24f315abe6badad39d0d2376151b4b.jpg" width="194" height="135" alt="从拍照到摄影，就这么几步" /></a></li>
+                </ul>
+              </div>
+              <!-- =S categ_s -->
+            </div>
+            <!-- =E i_bd -->
+          </div>
+          <!-- =E item -->
+          <div class="item item_last">
+            <div class="i_hd"> <span class="i_hd_tit"> <a href="#/course/72364370666979328_____.html" target="_blank">学术</a
+                                    >、<a href="#/course/72368760123555840_____.html" target="_blank">TED</a
+                                    >、<a href="#/course/72368764418523136_____.html" target="_blank">名校公开课</a> </span> <s class="i_hd_arr"></s> </div>
+            <div class="i_bd" style="display:none;">
+              <!-- =S categ_m -->
+              <div class="categ_m">
+                <h3><a href="#/course/72368755828588544_____.html" target="_blank">公开课</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72368760123555840_____.html" target="_blank">TED课程</a></dt>
+                  <dd> <a href="#/course/72368760140333056_____.html" target="_blank">综合</a> <a href="#/course/72368760157110272_____.html" target="_blank">理工</a> <a href="#/course/72368760173887488_____.html" target="_blank">艺术</a> <a href="#/course/72368760190664704_____.html" target="_blank">趣味</a> <a href="#/course/72368760207441920_____.html" target="_blank">传媒</a> <a href="#/course/72368760224219136_____.html" target="_blank">历史</a> <a href="#/course/72368760240996352_____.html" target="_blank">心理</a> <a href="#/course/72368760257773568_____.html" target="_blank">社会</a> <a href="#/course/72368760274550784_____.html" target="_blank">科技</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72368764418523136_____.html" target="_blank">名校课程</a></dt>
+                  <dd> <a href="#/course/72368764435300352_____.html" target="_blank">综合</a> <a href="#/course/72368764452077568_____.html" target="_blank">趣味</a> <a href="#/course/72368764468854784_____.html" target="_blank">历史</a> <a href="#/course/72368764485632000_____.html" target="_blank">经管</a> <a href="#/course/72368764502409216_____.html" target="_blank">文艺</a> <a href="#/course/72368764519186432_____.html" target="_blank">理工</a> <a href="#/course/72368764535963648_____.html" target="_blank">传媒</a> <a href="#/course/72368764552740864_____.html" target="_blank">心理</a> <a href="#/course/72368764569518080_____.html" target="_blank">社会</a> </dd>
+                </dl>
+                <h3><a href="#/course/72364370666979328_____.html" target="_blank">学术学科</a></h3>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72364370700533760_____.html" target="_blank">社会科学</a></dt>
+                  <dd> <a href="#/course/72364370700730368_____.html" target="_blank">历史</a> <a href="#/course/72364370700664832_____.html" target="_blank">心理学</a> <a href="#/course/72364370701189120_____.html" target="_blank">宗教</a> <a href="#/course/72364370700599296_____.html" target="_blank">经济学</a> <a href="#/course/72364370701123584_____.html" target="_blank">新闻/传媒</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72364370717310976_____.html" target="_blank">形式科学</a></dt>
+                  <dd> <a href="#/course/72364370717376512_____.html" target="_blank">数学</a> <a href="#/course/72364370717442048_____.html" target="_blank">数理逻辑</a> <a href="#/course/72364370717573120_____.html" target="_blank">计算机科学</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72364370683756544_____.html" target="_blank">自然科学</a></dt>
+                  <dd> <a href="#/course/72364370684018688_____.html" target="_blank">自然地理学</a> <a href="#/course/72364370683953152_____.html" target="_blank">天文学</a> <a href="#/course/72364370684215296_____.html" target="_blank">风水学</a> <a href="#/course/72364370683887616_____.html" target="_blank">化学</a> <a href="#/course/72364370683822080_____.html" target="_blank">物理学</a> <a href="#/course/72364370684084224_____.html" target="_blank">生物学</a> </dd>
+                </dl>
+                <dl>
+                  <dt><a class="c_1ab177" href="#/course/72364370734088192_____.html" target="_blank">应用科学</a></dt>
+                  <dd> <a href="#/course/72364370734350336_____.html" target="_blank">运筹学</a> <a href="#/course/72364370734153728_____.html" target="_blank">土木工程</a> <a href="#/course/72364370734415872_____.html" target="_blank">软件工程</a> </dd>
+                </dl>
+              </div>
+              <!-- =E categ_m -->
+              <!-- =S categ_s -->
+              <div class="categ_s">
+                <div class="lstTxt" style="display:none;">
+                  <h3>推荐课程</h3>
+                  <ul>
+                    <li><a class="c_1ab177" href="#/1219509-102241.html">跟着案例学PPT课件制作</a></li>
+                    <li><a class="c_777" href="#/1354866-96011.html">Excel从零到精操作教程</a></li>
+                    <li><a class="c_777" href="#/1395435-100144.html">100%创业成功的秘诀</a></li>
+                    <li><a class="c_777" href="#/1621447-103387.html">word2013高效办公课程</a></li>
+                    <li><a class="c_777" href="#/1395435-100149.html">不可不知的求职秘诀</a></li>
+                  </ul>
+                </div>
+                <div class="lstPic" style="display:none;">
+                  <h3>学校推荐</h3>
+                  <ul class="clearfix">
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                    <li><a href="#"><img src="images/i_hd_pic_50x50.jpg" alt=""></a></li>
+                  </ul>
+                </div>
+                <div class="pic1" style="display:;"> <a href="#/1025332-75664.html" target="_blank"><img src="uploads/67f5537e77df66b5f9956d11f9876766.jpg" width="216" height="330" alt="给你一片璀璨星空" /></a> </div>
+                <ul class="pic2" style="display:none;">
+                  <li><a href="#"><img src="images/i_hd_pic_194x70.jpg" width="194" height="70" alt="" /></a></li>
+                  <li><a href="#"><img src="images/i_hd_pic_194x70.jpg" width="194" height="70" alt="" /></a></li>
+                </ul>
+              </div>
+              <!-- =S categ_s -->
+            </div>
+            <!-- =E i_bd -->
+          </div>
+        </div>
+      </div>
+      <ul class="mn_menu fl clearfix">
+        <li><a href="/" class="">首页</a></li>
+        <li><a href="/jineng" target="_blank" class="">技能专区</a></li>
+        <li><a href="/kaoshi" target="_blank" class="">考试考级</a></li>
+        <li><a href="/k12" target="_blank" class="">中小学</a></li>
+        <li><a href="/xingqu" target="_blank" class="">生活文艺</a></li>
+        <li> <a href="#/course/__prelectstarttime_asc___2.html">今日直播</a> <i class="hot"></i> </li>
+        <li><a href="#/" target="_blank">精品课</a></li>
+        <li><a href="#/" target="_blank">万学专区</a></li>
+      </ul>
+      <ul class="mn_extd">
+        <li><a class="a2" target="_blank" href="#/?mod=school&act=create">创建学校</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="listContent mb20">
+  <section class="listMain" style="min-height:300px;">
+    <div class="lSortBox mb15" style="width:970px;">
+      <div class="hd">
+        <div class="crumb"> <a href="#/">首页</a> <span>&gt;</span> <a href="#/course/______2.html">所有分类</a> <span>&gt;</span> <span class="s here">IT/计算机/互联网</span> </div>
+        <div class="count">共<i class="n">2260</i>个课程</div>
+      </div>
+      <div class="s_cate_list">
+        <ul class="clearfix">
+          <li><a href="#/course/72351236656988160______2.html">设计制作</a>（1018）</li>
+          <li><a href="#/course/72351176527446016______2.html">编程语言</a>（614）</li>
+          <li><a href="#/course/72351202297249792______2.html">移动互联网</a>（236）</li>
+          <li><a href="#/course/72351215182151680______2.html">其他</a>（173）</li>
+          <li><a href="#/course/72351189412347904______2.html">系统运维</a>（68）</li>
+          <li><a href="#/course/72351180822413312______2.html">数据库管理</a>（53）</li>
+          <li><a href="#/course/72351210887184384______2.html">产品/编辑/运营</a>（48）</li>
+          <li><a href="#/course/72351240951955456______2.html">网络安全</a>（13）</li>
+          <li><a href="#/course/72351185117380608______2.html">系统架构</a>（12）</li>
+          <li><a href="#/course/72351245246922752______2.html">嵌入式培训</a>（12）</li>
+          <li><a href="#/course/72351228067053568______2.html">移动通信</a>（6）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sltBar">
+      <ul class="sUl">
+        <li> <a class="i_s i_s_curr" href="#/course/72351163642544128______2.html">默认排序</a> </li>
+        <li> <a class="i_s i_si " href="#/course/72351163642544128__createtime_desc___2.html"><i class="i_s_up"></i>最新发布</a> </li>
+        <li> <a class="i_s i_si " href="#/course/72351163642544128__prelectstarttime_asc___2.html"><i class="i_s_up"></i>最近上课</a> </li>
+        <li> <a class="i_s i_si " href="#/course/72351163642544128__salenumber_desc___2.html"><i class="i_s_down"></i>销量</a> </li>
+        <li> <a class="i_s i_si " href="#/course/72351163642544128__goodrate_desc___2.html"><i class="i_s_down"></i>满意度</a> </li>
+        <li> <a class="i_s i_si " href="#/course/72351163642544128__cost_asc___2.html"><i class="i_s_down"></i>价格</a> </li>
+        <li>
+          <p id="cost_range"> <span class="input-text input-price"><span>
+            <input type="text" value="" id="minprice" class="price-field" />
+          </span><b>¥</b> </span> - <span class="input-text input-price"> <span>
+            <input type="text" value="" id="maxprice" class="price-field"/>
+            </span> <b>¥</b> </span> <a id="cost_search" style="display:none;" class="c_btn22 ml5" href="#/course/72351163642544128______2.html"><span>确定</span></a> </p>
+        </li>
+        <li class="list_type">
+          <label class="l_online" for="list_kkzx" style="display:none;">
+            <input type="checkbox" id="list_kkzx">
+            <span class="ml5">KK在线</span></label>
+          <a class="type type1" href="#/course/72351163642544128______1.html"></a> <a class="type type2_curr" href="#/course/72351163642544128______2.html"></a> </li>
+      </ul>
+    </div>
+    <section class="litemBox mb20">
+      <div class="s_result_list">
+        <ul>
+          <li class="clearfix"> <a target="_blank" class="pic" href="#/1018455-83980.html"><img src="uploads/41cf3c54bad8093f1bc498ceff51d022.thumb.jpg"></a>
+            <div class="s_result_con ml15">
+              <h3><a href="#/1018455-83980.html" target="_blank">PHP项目实战必修课<em class='c_f60'></em></a></h3>
+              <p class="c_555 pt10"><a target="_blank" href="#/s1018455.html">互联网技术就业速成班<em class='c_f60'></em></a>&nbsp;		<img  style="CURSOR: pointer" class="sk_talkIcon" onclick="javascript:window.open('http://b.qq.com/webc.htm?new=0&sid=561779482&o=shareku.com&q=7', '_blank', 'height=502, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');"  border="0" SRC=http://wpa.qq.com/pa?p=1:561779482:10 alt="有事点这里哦"></p>
+              <p title="信用值：20724" class="c_999 pt5">学校信用：<img border="0" src="images//s32.gif" /></p>
+            </div>
+            <div class="s_result_con s_result_price">
+              <p><b class="f16 c_f60 mr5">1.00</b>元</p>
+              <p class="c_999 pt10">共2课时</p>
+            </div>
+            <div class="s_result_con s_result_info">
+              <p class="pt5 c_999">377人购买</p>
+              <p class="pt10 c_999">满意度 100%</p>
+              <p class="pt10"><a class="c_777" target="_blank" href="#/1018455-83980.html#comment"><u>351 条评价</u></a></p>
+            </div>
+            <div class="s_result_con s_result_data">
+              <p class="pt5"><img src="images/ico_danbao.gif"><a class="ml5" target="_blank" href="#/question/id-3272__item_id-2037__rf-false"><i class="simsun">担保期15天</i></a></p>
+            </div>
+          </li>
+          <li class="clearfix"> <a target="_blank" class="pic" href="#/1041791-91693.html"><img src="uploads/41cf3c54bad8093f1bc498ceff51d022.thumb.jpg"></a>
+            <div class="s_result_con ml15">
+              <h3><a href="#/1041791-91693.html" target="_blank">Photoshop设计进阶班<em class='c_f60'></em></a></h3>
+              <p class="red pt10">正在直播中...</p>
+              <p class="c_555 pt10"><a target="_blank" href="#/s1041791.html">为课网校<em class='c_f60'></em></a>&nbsp;		<img  style="CURSOR: pointer" class="sk_talkIcon" onclick="javascript:window.open('http://b.qq.com/webc.htm?new=0&sid=561779482&o=shareku.com&q=7', '_blank', 'height=502, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');"  border="0" SRC=http://wpa.qq.com/pa?p=1:561779482:10 alt="有事点这里哦"></p>
+              <p title="信用值：59526" class="c_999 pt5">学校信用：<img border="0" src="images//s33.gif" /></p>
+            </div>
+            <div class="s_result_con s_result_price">
+              <p><b class="f16 c_f60 mr5">760.00</b>元</p>
+              <p class="c_999 pt10">共21课时</p>
+            </div>
+            <div class="s_result_con s_result_info">
+              <p class="pt5 c_999">483人购买</p>
+              <p class="pt10 c_999">满意度 99.13%</p>
+              <p class="pt10"><a class="c_777" target="_blank" href="#/1041791-91693.html#comment"><u>115 条评价</u></a></p>
+            </div>
+            <div class="s_result_con s_result_data">
+              <p class="pt5"><img src="images/ico_danbao.gif"><a class="ml5" target="_blank" href="#/question/id-3272__item_id-2037__rf-false"><i class="simsun">担保期15天</i></a></p>
+            </div>
+          </li>
+          <li class="clearfix"> <a target="_blank" class="pic" href="#/1041791-101453.html"><img src="http://web.img.chuanke.com/course/2014-08/29/4e73af0ecc0cd1f02c8dc14526ce7946.thumb.jpg"></a>
+            <div class="s_result_con ml15">
+              <h3><a href="#/1041791-101453.html" target="_blank">3Dmax中级进阶班<em class='c_f60'></em></a></h3>
+              <p class="red pt10">正在直播中...</p>
+              <p class="c_555 pt10"><a target="_blank" href="#/s1041791.html">为课网校<em class='c_f60'></em></a>&nbsp;		<img  style="CURSOR: pointer" class="sk_talkIcon" onclick="javascript:window.open('http://b.qq.com/webc.htm?new=0&sid=561779482&o=shareku.com&q=7', '_blank', 'height=502, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');"  border="0" SRC=http://wpa.qq.com/pa?p=1:561779482:10 alt="有事点这里哦"></p>
+              <p title="信用值：59526" class="c_999 pt5">学校信用：<img border="0" src="images//s33.gif" /></p>
+            </div>
+            <div class="s_result_con s_result_price">
+              <p><b class="f16 c_f60 mr5">780.00</b>元</p>
+              <p class="c_999 pt10">共24课时</p>
+            </div>
+            <div class="s_result_con s_result_info">
+              <p class="pt5 c_999">51人购买</p>
+              <p class="pt10 c_999">满意度 100%</p>
+              <p class="pt10"><a class="c_777" target="_blank" href="#/1041791-101453.html#comment"><u>1 条评价</u></a></p>
+            </div>
+            <div class="s_result_con s_result_data">
+              <p class="pt5"><img src="images/ico_danbao.gif"><a class="ml5" target="_blank" href="#/question/id-3272__item_id-2037__rf-false"><i class="simsun">担保期15天</i></a></p>
+            </div>
+          </li>
+          <li class="clearfix"> <a target="_blank" class="pic" href="#/1041791-110358.html"><img src="http://web.img.chuanke.com/course/2014-09/02/91edccb6607046d6b5fd72956a6ee269.thumb.jpg"></a>
+            <div class="s_result_con ml15">
+              <h3><a href="#/1041791-110358.html" target="_blank">淘宝天猫美工专才班精讲<em class='c_f60'></em></a></h3>
+              <p class="zb_tip pt10">今日21点10分 有直播课程</p>
+              <p class="c_555 pt10"><a target="_blank" href="#/s1041791.html">为课网校<em class='c_f60'></em></a>&nbsp;		<img  style="CURSOR: pointer" class="sk_talkIcon" onclick="javascript:window.open('http://b.qq.com/webc.htm?new=0&sid=561779482&o=shareku.com&q=7', '_blank', 'height=502, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');"  border="0" SRC=http://wpa.qq.com/pa?p=1:561779482:10 alt="有事点这里哦"></p>
+              <p title="信用值：59526" class="c_999 pt5">学校信用：<img border="0" src="images//s33.gif" /></p>
+            </div>
+            <div class="s_result_con s_result_price">
+              <p><b class="f16 c_f60 mr5">3390.00</b>元</p>
+              <p class="c_999 pt10">共39课时</p>
+            </div>
+            <div class="s_result_con s_result_info">
+              <p class="pt5 c_999">40人购买</p>
+              <p class="pt10 c_999">满意度 0%</p>
+              <p class="pt10"><a class="c_777" target="_blank" href="#/1041791-110358.html#comment"><u>0 条评价</u></a></p>
+            </div>
+            <div class="s_result_con s_result_data">
+              <p class="pt5"><img src="images/ico_danbao.gif"><a class="ml5" target="_blank" href="#/question/id-3272__item_id-2037__rf-false"><i class="simsun">担保期15天</i></a></p>
+            </div>
+          </li>
+          <li class="clearfix"> <a target="_blank" class="pic" href="#/1018455-83522.html"><img src="http://web.img.chuanke.com/course/2012-08/31/c345c59e3ca4a6663cf9abc0881d9b32.thumb.jpg"></a>
+            <div class="s_result_con ml15">
+              <h3><a href="#/1018455-83522.html" target="_blank">零基础学C语言程序设计<em class='c_f60'></em></a></h3>
+              <p class="zb_tip pt10">09月21日 16点30分 有直播课</p>
+              <p class="c_555 pt10"><a target="_blank" href="#/s1018455.html">互联网技术就业速成班<em class='c_f60'></em></a>&nbsp;		<img  style="CURSOR: pointer" class="sk_talkIcon" onclick="javascript:window.open('http://b.qq.com/webc.htm?new=0&sid=561779482&o=shareku.com&q=7', '_blank', 'height=502, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');"  border="0" SRC=http://wpa.qq.com/pa?p=1:561779482:10 alt="有事点这里哦"></p>
+              <p title="信用值：20724" class="c_999 pt5">学校信用：<img border="0" src="images//s32.gif" /></p>
+            </div>
+            <div class="s_result_con s_result_price">
+              <p><b class="f16 c_f60 mr5">0.00</b>元</p>
+              <p class="c_999 pt10">共22课时</p>
+            </div>
+            <div class="s_result_con s_result_info">
+              <p class="pt5 c_999">8888人购买</p>
+              <p class="pt10 c_999">满意度 100%</p>
+              <p class="pt10"><a class="c_777" target="_blank" href="#/1018455-83522.html#comment"><u>2836 条评价</u></a></p>
+            </div>
+            <div class="s_result_con s_result_data">
+              <p class="pt5"><img src="images/ico_danbao.gif"><a class="ml5" target="_blank" href="#/question/id-3272__item_id-2037__rf-false"><i class="simsun">担保期180天</i></a></p>
+            </div>
+          </li>
+          <li class="clearfix"> <a target="_blank" class="pic" href="#/1018455-111028.html"><img src="http://web.img.chuanke.com/course/2014-09/10/1c42adc5dc6ab1ce981471b15c7f17a2.thumb.jpg"></a>
+            <div class="s_result_con ml15">
+              <h3><a href="#/1018455-111028.html" target="_blank">C++程序设计<em class='c_f60'></em></a></h3>
+              <p class="zb_tip pt10">09月17日 19点30分 有直播课</p>
+              <p class="c_555 pt10"><a target="_blank" href="#/s1018455.html">互联网技术就业速成班<em class='c_f60'></em></a>&nbsp;		<img  style="CURSOR: pointer" class="sk_talkIcon" onclick="javascript:window.open('http://b.qq.com/webc.htm?new=0&sid=561779482&o=shareku.com&q=7', '_blank', 'height=502, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');"  border="0" SRC=http://wpa.qq.com/pa?p=1:561779482:10 alt="有事点这里哦"></p>
+              <p title="信用值：20724" class="c_999 pt5">学校信用：<img border="0" src="images//s32.gif" /></p>
+            </div>
+            <div class="s_result_con s_result_price">
+              <p><b class="f16 c_f60 mr5">0.00</b>元</p>
+              <p class="c_999 pt10">共56课时</p>
+            </div>
+            <div class="s_result_con s_result_info">
+              <p class="pt5 c_999">190人购买</p>
+              <p class="pt10 c_999">满意度 100%</p>
+              <p class="pt10"><a class="c_777" target="_blank" href="#/1018455-111028.html#comment"><u>3 条评价</u></a></p>
+            </div>
+            <div class="s_result_con s_result_data">
+              <p class="pt5"><img src="images/ico_danbao.gif"><a class="ml5" target="_blank" href="#/question/id-3272__item_id-2037__rf-false"><i class="simsun">担保期15天</i></a></p>
+            </div>
+          </li>
+          <li class="clearfix"> <a target="_blank" class="pic" href="#/1018455-4518.html"><img src="http://web.img.chuanke.com/course/2013-12/16/04b4ace29701365cb04ed4a352c4df0b.thumb.jpg"></a>
+            <div class="s_result_con ml15">
+              <h3><a href="#/1018455-4518.html" target="_blank">零基础学HTML语言(第五讲)<em class='c_f60'></em></a></h3>
+              <p class="c_555 pt10"><a target="_blank" href="#/s1018455.html">互联网技术就业速成班<em class='c_f60'></em></a>&nbsp;		<img  style="CURSOR: pointer" class="sk_talkIcon" onclick="javascript:window.open('http://b.qq.com/webc.htm?new=0&sid=561779482&o=shareku.com&q=7', '_blank', 'height=502, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');"  border="0" SRC=http://wpa.qq.com/pa?p=1:561779482:10 alt="有事点这里哦"></p>
+              <p title="信用值：20724" class="c_999 pt5">学校信用：<img border="0" src="images//s32.gif" /></p>
+            </div>
+            <div class="s_result_con s_result_price">
+              <p><b class="f16 c_f60 mr5">0.00</b>元</p>
+              <p class="c_999 pt10">共7课时</p>
+            </div>
+            <div class="s_result_con s_result_info">
+              <p class="pt5 c_999">2336人购买</p>
+              <p class="pt10 c_999">满意度 100%</p>
+              <p class="pt10"><a class="c_777" target="_blank" href="#/1018455-4518.html#comment"><u>1243 条评价</u></a></p>
+            </div>
+            <div class="s_result_con s_result_data">
+              <p class="pt5"><img src="images/ico_danbao.gif"><a class="ml5" target="_blank" href="#/question/id-3272__item_id-2037__rf-false"><i class="simsun">担保期100天</i></a></p>
+            </div>
+          </li>
+          <li class="clearfix"> <a target="_blank" class="pic" href="#/1018455-5694.html"><img src="http://web.img.chuanke.com/course/2013-09/15/4b4450f05d67a4af8c0daf0f7e4cf81e.thumb.jpg"></a>
+            <div class="s_result_con ml15">
+              <h3><a href="#/1018455-5694.html" target="_blank">电子商务与订单系统<em class='c_f60'></em></a></h3>
+              <p class="c_555 pt10"><a target="_blank" href="#/s1018455.html">互联网技术就业速成班<em class='c_f60'></em></a>&nbsp;		<img  style="CURSOR: pointer" class="sk_talkIcon" onclick="javascript:window.open('http://b.qq.com/webc.htm?new=0&sid=561779482&o=shareku.com&q=7', '_blank', 'height=502, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');"  border="0" SRC=http://wpa.qq.com/pa?p=1:561779482:10 alt="有事点这里哦"></p>
+              <p title="信用值：20724" class="c_999 pt5">学校信用：<img border="0" src="images//s32.gif" /></p>
+            </div>
+            <div class="s_result_con s_result_price">
+              <p><b class="f16 c_f60 mr5">0.00</b>元</p>
+              <p class="c_999 pt10">共2课时</p>
+            </div>
+            <div class="s_result_con s_result_info">
+              <p class="pt5 c_999">1990人购买</p>
+              <p class="pt10 c_999">满意度 100%</p>
+              <p class="pt10"><a class="c_777" target="_blank" href="#/1018455-5694.html#comment"><u>1037 条评价</u></a></p>
+            </div>
+            <div class="s_result_con s_result_data">
+              <p class="pt5"><img src="images/ico_danbao.gif"><a class="ml5" target="_blank" href="#/question/id-3272__item_id-2037__rf-false"><i class="simsun">担保期100天</i></a></p>
+            </div>
+          </li>
+          <li class="clearfix"> <a target="_blank" class="pic" href="#/1018455-83204.html"><img src="http://web.img.chuanke.com/course/2013-12/19/94354dd2f5b5be0033d3d9af7c24983c.thumb.jpg"></a>
+            <div class="s_result_con ml15">
+              <h3><a href="#/1018455-83204.html" target="_blank">Python语言入门课程(第一讲)<em class='c_f60'></em></a></h3>
+              <p class="c_555 pt10"><a target="_blank" href="#/s1018455.html">互联网技术就业速成班<em class='c_f60'></em></a>&nbsp;		<img  style="CURSOR: pointer" class="sk_talkIcon" onclick="javascript:window.open('http://b.qq.com/webc.htm?new=0&sid=561779482&o=shareku.com&q=7', '_blank', 'height=502, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');"  border="0" SRC=http://wpa.qq.com/pa?p=1:561779482:10 alt="有事点这里哦"></p>
+              <p title="信用值：20724" class="c_999 pt5">学校信用：<img border="0" src="images//s32.gif" /></p>
+            </div>
+            <div class="s_result_con s_result_price">
+              <p><b class="f16 c_f60 mr5">0.00</b>元</p>
+              <p class="c_999 pt10">共6课时</p>
+            </div>
+            <div class="s_result_con s_result_info">
+              <p class="pt5 c_999">1791人购买</p>
+              <p class="pt10 c_999">满意度 100%</p>
+              <p class="pt10"><a class="c_777" target="_blank" href="#/1018455-83204.html#comment"><u>981 条评价</u></a></p>
+            </div>
+            <div class="s_result_con s_result_data">
+              <p class="pt5"><img src="images/ico_danbao.gif"><a class="ml5" target="_blank" href="#/question/id-3272__item_id-2037__rf-false"><i class="simsun">担保期150天</i></a></p>
+            </div>
+          </li>
+          <li class="clearfix"> <a target="_blank" class="pic" href="#/1018455-83205.html"><img src="http://web.img.chuanke.com/course/2013-08/23/7fbc047723362b95fa8f39230bd8acd5.thumb.jpg"></a>
+            <div class="s_result_con ml15">
+              <h3><a href="#/1018455-83205.html" target="_blank">零基础学HTML语言(第一讲)<em class='c_f60'></em></a></h3>
+              <p class="c_555 pt10"><a target="_blank" href="#/s1018455.html">互联网技术就业速成班<em class='c_f60'></em></a>&nbsp;		<img  style="CURSOR: pointer" class="sk_talkIcon" onclick="javascript:window.open('http://b.qq.com/webc.htm?new=0&sid=561779482&o=shareku.com&q=7', '_blank', 'height=502, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');"  border="0" SRC=http://wpa.qq.com/pa?p=1:561779482:10 alt="有事点这里哦"></p>
+              <p title="信用值：20724" class="c_999 pt5">学校信用：<img border="0" src="images//s32.gif" /></p>
+            </div>
+            <div class="s_result_con s_result_price">
+              <p><b class="f16 c_f60 mr5">0.00</b>元</p>
+              <p class="c_999 pt10">共1课时</p>
+            </div>
+            <div class="s_result_con s_result_info">
+              <p class="pt5 c_999">2023人购买</p>
+              <p class="pt10 c_999">满意度 100%</p>
+              <p class="pt10"><a class="c_777" target="_blank" href="#/1018455-83205.html#comment"><u>1380 条评价</u></a></p>
+            </div>
+            <div class="s_result_con s_result_data">
+              <p class="pt5"><img src="images/ico_danbao.gif"><a class="ml5" target="_blank" href="#/question/id-3272__item_id-2037__rf-false"><i class="simsun">担保期100天</i></a></p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <div class="ck_page cb tr"> <span class='curr'> 1 </span><a title='第2页' href='#/course/72351163642544128______2.html?page=2' class='ajaxLink'>2</a><a title='第3页' href='#/course/72351163642544128______2.html?page=3' class='ajaxLink'>3</a><a title='第4页' href='#/course/72351163642544128______2.html?page=4' class='ajaxLink'>4</a><a title='第5页' href='#/course/72351163642544128______2.html?page=5' class='ajaxLink'>5</a><span class='ellipsis'>...</span><a title='第226页' href='#/course/72351163642544128______2.html?page=226' class='ajaxLink'>226</a><a title='下一页' href='#/course/72351163642544128______2.html?page=2'  class='next ajaxLink'>下一页<s></s></a>
+      <div class="pageNum"><span>到第
+        <input type="text" class="ipt1" name="page" id="jumpPage" url="#/course/72351163642544128______2.html?page=" maxpage="226">
+        页
+        <input type="button" class="ipt2" value="" id="jumpBtn">
+        </span></div>
+    </div>
+  </section>
+  <div class="listAside" style="min-height:300px;">
+    <section class="lt_tj">
+      <header class="lt_tj_hd">
+        <h3>课程推荐</h3>
+      </header>
+      <div class="lt_tj_bd">
+        <ul>
+          <li>
+            <dl class="picTxt">
+              <dt><a target="_blank" href="#/2014/weike"><img src="uploads/b23e0a5f5d8870bea0ca90c923d6655d.jpg" width="176" height="132" alt="几块钱的选择 新技能get"></a></dt>
+              <dd><a target="_blank" href="#/2014/weike">你的选择决定你的"技能"</a></dd>
+              <dd><i class="n">几块钱的选择，新技能get</i></dd>
+            </dl>
+          </li>
+          <li>
+            <dl class="picTxt">
+              <dt><a target="_blank" href="#/2014/kaoyan"><img src="uploads/b23e0a5f5d8870bea0ca90c923d6655d.jpg" width="176" height="132" alt="2015考研大纲考研真题解析"></a></dt>
+              <dd><a target="_blank" href=""#/2014/kaoyan">2015考研由你来决定</a></dd>
+              <dd><i class="n">最优秀考研名师大纲解析</i></dd>
+            </dl>
+          </li>
+          <li>
+            <dl class="picTxt">
+              <dt><a target="_blank" href="#/1211178-104944.html"><img src="uploads/06.jpg" width="176" height="132" alt="零基础包会FlappyBird"></a></dt>
+              <dd><a target="_blank" href="#/1211178-104944.html">零基础包会FlappyBird</a></dd>
+              <dd>价格：￥<i class="n">30</i></dd>
+            </dl>
+          </li>
+          <li>
+            <dl class="picTxt">
+              <dt><a target="_blank" href="#/1404350-99062.html"><img src="uploads/14.jpg" width="176" height="132" alt="微信营销入门几个要点"></a></dt>
+              <dd><a target="_blank" href="#/1404350-99062.html">微信营销入门几个要点</a></dd>
+              <dd>价格：￥<i class="n">10</i></dd>
+            </dl>
+          </li>
+          <li>
+            <dl class="picTxt">
+              <dt><a target="_blank" href="#/1020057-105189.html"><img src="uploads/29.jpg" width="176" height="132" alt="这次真正爱上日语"></a></dt>
+              <dd><a target="_blank" href="#/1020057-105189.html">这次真正爱上日语</a></dd>
+              <dd>价格：￥<i class="n">29</i></dd>
+            </dl>
+          </li>
+          <li>
+            <dl class="picTxt">
+              <dt><a target="_blank" href="#/1032537-75941.html"><img src="uploads/35.jpg" width="176" height="132" alt="帮你快速搞定法语词汇"></a></dt>
+              <dd><a target="_blank" href="#/1032537-75941.html">帮你快速搞定法语词汇</a></dd>
+              <dd>价格：￥<i class="n">40</i></dd>
+            </dl>
+          </li>
+          <li>
+            <dl class="picTxt">
+              <dt><a target="_blank" href="#/1800632-105379.html"><img src="uploads/41.jpg" width="176" height="132" alt="性感肚皮舞跳起来"></a></dt>
+              <dd><a target="_blank" href="#/1800632-105379.html">性感肚皮舞跳起来</a></dd>
+              <dd>价格：￥<i class="n">99</i></dd>
+            </dl>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+  <s class="clearfix"></s> </div>
+<!-- =E listContent -->
+<script>
+$(function(){
+	var cost_focus = 0;
+	
+	
+	$("#cost_range").mouseover(function(){
+		cost_focus = 1;
+	}).mouseout(function(){
+		cost_focus = 0;
+	});
+	
+	$(".price-field").focus(function(){
+		$("#cost_search").show();
+	}).blur(function(){
+		if (cost_focus == 0) {
+			$("#cost_search").hide();
+		}
+	});
+
+	$("#cost_search").click(function(){
+		var minprice = $("#minprice").val();
+		var maxprice = $("#maxprice").val();
+
+		if ((minprice && !/^\d+$/.test(minprice)) || (maxprice && !/^\d+$/.test(maxprice))){
+			$.ckAlert({message:'价格格式填写不正确，只能为整数'});
+			return false;
+		}
+		if(minprice == '' && maxprice == ''){
+			var url = "/course/______2.html";
+		}else{
+			var url = "/course/72351163642544128____";
+			url = url + minprice + '_'+maxprice+'_2.html';
+		}
+		location.href = url;
+		return false;
+	});
+
+	$("#jumpPage").keydown(function(event){
+		if(event.keyCode == 13){
+			$("#jumpBtn").trigger('click');
+		}
+	});
+
+	$("#jumpBtn").click(function(){
+		var page = parseInt($("#jumpPage").val());
+		if (!/^\d+$/.test(page)){
+			return false;
+		}
+		
+		var maxpage = parseInt($("#jumpPage").attr("maxpage"));
+		if (page < 1 || page > maxpage) {
+			return false;
+		} else {
+			location.href=$("#jumpPage").attr('url')+page;
+		}
+	});
+
+	$(".mn_sort").mouseover(function(){
+		$(".mn_mt").css('background','#3586f2');
+		$(".mn_mc").show();
+	}).mouseleave(function(){
+		$(".mn_mt").css('background','#135abc');
+		$(".mn_mc").hide();
+	});	
+	$('.mn_sort > .mn_mc > .item').hover(function(){
+		$(this).addClass('item_hover');
+		$(this).children('.i_bd').show();
+	},function(){
+		$(this).removeClass('item_hover');
+		$(this).children('.i_bd').hide();
+	});
+});
+</script>
+
+<footer class="footer">
+  <nav class="ft_nav"> <a href="/about" target="_blank">关于晒库网</a> <a href="/helpcenter/index.html" target="_blank">晒库网帮助</a> <a href="/feedbask" target="_blank">意见反馈</a> <a href="/contactus" target="_blank">联系方式</a> <a href="/job" target="_blank">招聘信息</a> <a href="#">手机触屏版</a> </nav>
+  <div class="copyright">
+    <p class="info"> <span class="mr10">京ICP证<a href="http://www.miitbeian.gov.cn" target="_blank">1234567</a>号</span> <span class="mr10">Copyright &copy; 2014 </span> <span>晒库网 <a target="_blank" href="http://www.shareku.com/">Shareku.com</a></span> </p>
+  </div>
+</footer>
+<!-- E footer -->
+</body>
+</html>
+<div style="display:none;"></div>

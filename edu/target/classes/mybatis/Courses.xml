@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shareku.mapper.courses.CoursesMapper">
+	<sql id="coursesTableName">shareku_courses</sql>
+	<sql id="coursesColumns">
+		courses_commonid,courses_name,courses_jingle,store_id,store_name,gc_id,brand_id,courses_price,
+		courses_marketprice,courses_serial,courses_click,courses_salenum,courses_collect,courses_spec,
+		courses_storage,courses_image,courses_state,courses_verify,courses_addtime,courses_edittime,
+		courses_commend,courses_stcids,evaluation_good_star,evaluation_count
+	</sql>
+
+	<resultMap type="courses" id="coursesResultMap">
+		<id column="courses_id" property="coursesId"/>
+		<result column="courses_commonid" property="coursesCommonid"/>
+		<result column="courses_name" property="coursesName"/>
+		<result column="courses_jingle" property="coursesJingle"/>
+		<result column="store_id" property="storeId"/>
+		<result column="store_name" property="storeName"/>
+		<result column="gc_id" property="gcId"/>
+		<result column="brand_id" property="brandId"/>
+		<result column="courses_price" property="coursesPrice"/>
+		<result column="courses_marketprice" property="coursesMarketprice"/>
+		<result column="courses_serial" property="coursesSerial"/>
+		<result column="courses_click" property="coursesClick"/>
+		<result column="courses_salenum" property="coursesSalenum"/>
+		<result column="courses_collect" property="coursesCollect"/>
+		<result column="courses_spec" property="coursesSpec"/>
+		<result column="courses_storage" property="coursesStorage"/>
+		<result column="courses_image" property="coursesImage"/>
+		<result column="courses_state" property="coursesState"/>
+		<result column="courses_verify" property="coursesVerify"/>
+		<result column="courses_addtime" property="coursesAddtime"/>
+		<result column="courses_edittime" property="coursesEdittime"/>
+		<result column="courses_commend" property="coursesCommend"/>
+		<result column="courses_stcids" property="coursesStcids"/>
+		<result column="evaluation_good_star" property="evaluationGoodStar"/>
+		<result column="evaluation_count" property="evaluationCount"/>
+	</resultMap>
+	
+	<select id="listAllCourses" resultMap="coursesResultMap">
+		select courses_id, <include refid="coursesColumns"/> from <include refid="coursesTableName"/>
+	</select>
+	
+	<select id="listPageCourses" parameterType="Courses" resultMap="coursesResultMap">
+		select courses_id, <include refid="coursesColumns"/> from <include refid="coursesTableName"/> c
+		where 1 = 1
+		<if test="coursesName!=null and coursesName!=''">
+			and c.courses_name like "%"#{coursesName}"%"
+		</if>
+		<if test="storeName!=null and storeName!=''">
+			and c.store_name like "%"#{storeName}"%"
+		</if>
+	</select>
+	
+	<select id="getCoursesById" parameterType="int" resultMap="coursesResultMap">
+		select courses_id, <include refid="coursesColumns"/> from <include refid="coursesTableName"/> c where c.courses_id = #{coursesId}
+	</select>
+	
+	<insert id="insertCourses" parameterType="Courses" useGeneratedKeys="true" keyProperty="coursesId">
+		insert <include refid="coursesTableName"/> (<include refid="coursesColumns"/>) values 
+		(#{ccName},#{typeId},#{typeName},#{ccParentId},#{ccSort},#{ccTitle},#{ccKeywords},#{ccDescription})
+	</insert>
+	<update id="updateCourses" parameterType="Courses">
+		update <include refid="coursesTableName"/> set 
+		cc_name=#{ccName},
+		type_id=#{typeId},
+		type_name=#{typeName},
+		cc_parent_id=#{ccParentId},
+		cc_sort=#{ccSort},
+		cc_title=#{ccTitle},
+		cc_keywords=#{ccKeywords},
+		cc_description=#{ccDescription}
+		where courses_id=#{coursesId}
+	</update>
+	
+	<delete id="deleteCourses" parameterType="int">
+		delete from <include refid="coursesTableName"/> where courses_id=#{coursesId}
+	</delete>
+</mapper>
