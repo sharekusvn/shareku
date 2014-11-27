@@ -9,7 +9,7 @@ import com.shareku.entity.Page;
 
 /**
  * 课程类
- * @author cicada
+ * @author guodongbin
  * @date 2014-09-28 17:12
  *
  */
