@@ -7,7 +7,7 @@
 		<typeAlias type="com.shareku.entity.auth.User" 				alias="User"/>
 		<typeAlias type="com.shareku.entity.auth.Role" 				alias="Role"/>
 		<typeAlias type="com.shareku.entity.auth.Menu" 				alias="Menu"/>
-		<typeAlias type="com.shareku.entity.courses.Courses" 		alias="Courses"/>
+		<typeAlias type="com.shareku.entity.courses.Course" 		alias="Course"/>
 		<typeAlias type="com.shareku.entity.courses.CoursesClass" 	alias="CoursesClass"/>
 	</typeAliases>
 	
