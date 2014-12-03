@@ -5,7 +5,7 @@
 	<sql id="courseTableName">shareku_course</sql>
 	<sql id="courseColumns">
 		course_one, course_two, course_three, course_name, keywords, course_price, 
-    	valuations, discount, image_path, sales, lecturer, description, recommend, status, 
+    	valuations, discount, image_path, sales, lecturer, description, recommend, coursestatus, 
     	date, file_path
 	</sql>
 
@@ -24,7 +24,7 @@
 		<result column="lecturer" property="lecturer" jdbcType="VARCHAR" />
 		<result column="description" property="description" jdbcType="VARCHAR" />
 		<result column="recommend" property="recommend" jdbcType="BIT" />
-		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="coursestatus" property="status" jdbcType="INTEGER" />
 		<result column="date" property="date" jdbcType="DATE" />
 		<result column="file_path" property="filePath" jdbcType="VARCHAR" />
 	</resultMap>
@@ -46,34 +46,38 @@
 	</select>
 	
 	<insert id="insertCourse" parameterType="Course" useGeneratedKeys="true" keyProperty="courseId">
-		insert <include refid="courseTableName"/> (<include refid="courseColumns"/>) values 
-		#{course_id},#{course_one},#{course_two},#{course_three},#{course_name},#{keywords},#{course_price},#{
-    	valuations},#{discount},#{image_path},#{sales},#{lecturer},#{description},#{recommend},#{status},#{
-    	date},#{file_path}
+		insert <include refid="courseTableName"/> (<include refid="courseColumns"/>) values (
+		#{courseOne},#{courseTwo},#{courseThree},#{ courseName},#{ keywords},
+		#{ coursePrice}, #{ valuations},#{ discount},#{ imagePath}, #{sales}, #{ lecturer},
+		#{ description}, #{ recommend},#{status}, #{ date},#{ filePath} )
 	</insert>
 	<update id="updateCourse" parameterType="Course">
-		update <include refid="courseTableName"/> set 
-		course_id = #{course_id},
-		course_one = #{course_one},
-		course_two = #{course_two},
-		course_three = #{course_three},
-		course_name = #{course_name},
-		keywords = #{keywords},
-		course_price = #{course_price},
-		valuations = #{valuations},
-		discount = #{discount},
-		image_path = #{image_path},
-		sales = #{sales},
-		lecturer = #{lecturer},
-		description = #{description},
-		recommend = #{recommend},
-		status = #{status},
-		date = #{date},
-		file_path = #{file_path}
-		where course_id=#{courseId}
+		update
+		<include refid="courseTableName" />
+		set
+		course_one=#{courseOne},
+		course_two=#{courseTwo},
+		course_three=#{courseThree},
+		course_name=#{courseName},
+		keywords=#{keywords},
+		course_price=#{coursePrice},
+		valuations=#{valuations},
+		discount=#{discount},
+		image_path=#{imagePath},
+		sales=#{sales},
+		lecturer#{lecturer},
+		description=#{description},
+		recommend=#{recommend},
+		coursestatus=#{status},
+		date=#{date},
+		file_path=#{courseId}
 	</update>
 	
 	<delete id="deleteCourse" parameterType="int">
 		delete from <include refid="courseTableName"/> where course_id=#{courseId}
 	</delete>
+	
+	<insert id="addvideo" parameterType="Video" useGeneratedKeys="true" keyProperty="videoId">
+		insert shareku_video (course_id,file_path) values ( #{courseId},#{filePath} )
+	</insert>
 </mapper>

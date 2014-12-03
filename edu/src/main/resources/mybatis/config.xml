@@ -9,6 +9,7 @@
 		<typeAlias type="com.shareku.entity.auth.Menu" 				alias="Menu"/>
 		<typeAlias type="com.shareku.entity.courses.Course" 		alias="Course"/>
 		<typeAlias type="com.shareku.entity.courses.CoursesClass" 	alias="CoursesClass"/>
+		<typeAlias type="com.shareku.entity.courses.Video"          alias="Video"/>
 	</typeAliases>
 	
 	<plugins>

@@ -1,10 +1,9 @@
 package com.shareku.controller.courses;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -16,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.shareku.entity.Code;
@@ -39,14 +42,13 @@ public class CourseController {
 	private CourseService courseService;
 	
 	private final String path = "/home/courses/video"; //课程文件存放父目录  
-	private final String imagepath = "/home/courses/image"; //课程图片存放父目录  
 	private final String SPLIT = "/"; //
 	
 	@RequestMapping
 	public ModelAndView list(Course c){
 		List<Course> coursesList = courseService.listPageCourse(c);
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("coursesList", coursesList);
+		mv.addObject("courseList", coursesList);
 		mv.addObject("course", c);
 		//获取代码列表
 		Map<String, List<Code>> map = getCodeList();
@@ -82,19 +84,15 @@ public class CourseController {
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	public ModelAndView saveUser(Course c){
 		ModelAndView mv = new ModelAndView();
-		String image = c.getImagePath();
-		Path p = FileSystems.getDefault().getPath(image);
-		String localpath = imagepath + SPLIT + c.getCourseId() + p.getFileName();
-		if (storageFile(p, localpath)) {
-			c.setImagePath(localpath);
-		}
 		//如果存在id，则证明是修改操作，否则是删除操作
 		if (c.getCourseId() != null && c.getCourseId().intValue() != 0) {
 			courseService.updateCourse(c);
 		} else {
+			c.setDate(new Date());
+			c.setFilePath(path);
 			courseService.insertCourse(c);
 		}
-		mv.addObject("msg","success");
+		mv.addObject("couese",c);
 		mv.setViewName("save_result");
 		return mv;
 	}
@@ -168,30 +166,24 @@ public class CourseController {
 	 * 
 	 */
 	@RequestMapping(value="/add_video")
-	public ModelAndView addvideo(Course c){
+	public ModelAndView addvideo(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView();
-		//课程
-		String filePath = c.getFilePath();
-		StringBuffer loaclfilepath = new StringBuffer(); 
-		for (String s : filePath.split(",")) {
-			Path p = FileSystems.getDefault().getPath(s); //获取文件路径
-			String localPath = path + SPLIT + c.getCourseId() + p.getFileName().toString();
-			if (storageFile(p, localPath)) {
-				loaclfilepath.append(localPath);
-			}
+		Course c = (Course) request.getAttribute("course"); 
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartFile file = multipartRequest.getFile("file");
+		String localPath = path + SPLIT + c.getCourseId() + file.getName();
+		if (storageFile(file, localPath)) {
+			c.setFilePath(localPath);
 		}
-		Course course = courseService.getCourseById(c.getCourseId());
-		course.setFilePath(loaclfilepath.toString());
-		courseService.updateCourse(course);
+		courseService.updateCourse(c);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
 	}
 
-	private boolean storageFile(Path p, String localPath) {
-		File file = p.toFile();
+	private boolean storageFile(MultipartFile file, String localPath) {
 		try {
-			FileInputStream input = new FileInputStream(file);
+			InputStream input = file.getInputStream();
 			FileOutputStream out = new FileOutputStream(localPath);
 			int read = input.read();
 			while (read != -1) {

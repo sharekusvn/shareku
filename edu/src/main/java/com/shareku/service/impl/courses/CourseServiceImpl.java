@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.shareku.entity.courses.Course;
+import com.shareku.entity.courses.Video;
 import com.shareku.mapper.courses.CourseMapper;
 import com.shareku.service.courses.CourseService;
 
@@ -47,6 +48,12 @@ public class CourseServiceImpl implements CourseService {
 	public void deleteCourse(int coursesId) {
 		// TODO Auto-generated method stub
 		coursesMapper.deleteCourse(coursesId);
+	}
+
+	@Override
+	public void addvideo(Video video) {
+		// TODO Auto-generated method stub
+		coursesMapper.addvideo(video);
 	}
 	
 	
