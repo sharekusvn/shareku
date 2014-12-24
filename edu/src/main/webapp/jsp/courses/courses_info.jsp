@@ -17,79 +17,63 @@ body{width:100%;height:100%;background-color: #FFFFFF;text-align: center;}
 </head>
 <body>
 	<form action="save.shtml" name="userForm" id="userForm" target="result" method="post" onsubmit="return checkInfo();">
-	<input type="hidden" name="coursesId" id="coursesId" value="${courses.coursesId }"/>
+	<input type="hidden" name="coursesId" id="coursesId" value="${course.courseId }"/>
 	<table border="0" cellpadding="0" cellspacing="0">
 		<tr class="info">
-			<th>公共课id:</th>
-			<td><input type="text" name="coursesCommonid" id="coursesCommonid" class="input_txt" value="${courses.coursesCommonid }"/></td>
+			<th>一级分类:</th>
+			<td><input type="text" name="courseOne" id="courseOne" class="input_txt" value="${course.courseOne }"/></td>
+		</tr>
+		<tr class="info">
+			<th>二级分类:</th>
+			<td><input type="text" name="courseTwo" id="courseTwo" class="input_txt" value="${course.courseTwo }"/></td>
+		</tr>
+		<tr class="info">
+			<th>三级分类:</th>
+			<td><input type="text" name="courseThree" id="courseThree" class="input_txt" value="${course.courseThree }"/></td>
 		</tr>
 		<tr class="info">
 			<th>课程名称:</th>
-			<td><input type="text" name="coursesName" id="coursesName" class="input_txt" value="${courses.coursesName }"/></td>
+			<td><input type="text" name="courseName" id="courseName" class="input_txt" value="${course.courseName }"/></td>
 		</tr>
 		<tr class="info">
-			<th>课程广告词:</th>
-			<td><input type="text" name="coursesJingle" id="coursesJingle" class="input_txt" value="${courses.coursesJingle }"/></td>
-		</tr>
-		<tr class="info">
-			<th>学校id:</th>
-			<td><input type="text" name="storeId" id="storeId" class="input_txt" value="${courses.storeId }"/></td>
-		</tr>
-		<tr class="info">
-			<th>学校名称:</th>
-			<td><input type="text" name="storeName" id="storeName" class="input_txt" value="${courses.storeName }"/></td>
-		</tr>
-		<tr class="info">
-			<th>课程分类id:</th>
-			<td><input type="text" name="gcId" id="gcId" class="input_txt" value="${courses.gcId }"/></td>
-		</tr>
-		<tr class="info">
-			<th>品牌id:</th>
-			<td><input type="text" name="brandId" id="brandId" class="input_txt" value="${courses.brandId }"/></td>
+			<th>关键词:</th>
+			<td><input type="text" name="keywords" id="keywords" class="input_txt" value="${course.keywords }"/></td>
 		</tr>
 		<tr class="info">
 			<th>课程价格:</th>
-			<td><input type="text" name="coursesPrice" id="coursesPrice" class="input_txt" value="${courses.coursesPrice }"/></td>
+			<td><input type="text" name="coursePrice" id="coursePrice" class="input_txt" value="${course.coursePrice }"/></td>
 		</tr>
 		<tr class="info">
 			<th>市场价:</th>
-			<td><input type="text" name="coursesMarketprice" id="coursesMarketprice" class="input_txt" value="${courses.coursesMarketprice }"/></td>
+			<td><input type="text" name="valuations" id="valuations" class="input_txt" value="${course.valuations }"/></td>
 		</tr>
 		<tr class="info">
-			<th>商家编号:</th>
-			<td><input type="text" name="coursesSerial" id="coursesSerial" class="input_txt" value="${courses.coursesSerial }"/></td>
+			<th>折扣:</th>
+			<td><input type="text" name="discount" id="discount" class="input_txt" value="${course.discount }"/></td>
 		</tr>
 		<tr class="info">
-			<th>课程点击率:</th>
-			<td><input type="text" name="coursesClick" id="coursesClick" class="input_txt" value="${courses.coursesClick }"/></td>
+			<th>图片:</th>
+			<td><input type="text" name="imagePath" id="imagePath" class="input_txt" value="${course.imagePath }"/></td>
 		</tr>
 		<tr class="info">
 			<th>销售数量:</th>
-			<td><input type="text" name="coursesSalenum" id="coursesSalenum" class="input_txt" value="${courses.coursesSalenum }"/></td>
+			<td><input type="text" name="sales" id="sales" class="input_txt" value="${course.sales }"/></td>
 		</tr>
 		<tr class="info">
-			<th>收藏数量:</th>
-			<td><input type="text" name="coursesCollect" id="coursesCollect" class="input_txt" value="${courses.coursesCollect }"/></td>
+			<th>讲师:</th>
+			<td><input type="text" name="lecturer" id="lecturer" class="input_txt" value="${course.lecturer }"/></td>
 		</tr>
 		<tr class="info">
-			<th>课程章节序列化:</th>
-			<td><input type="text" name="coursesSpec" id="coursesSpec" class="input_txt" value="${courses.coursesSpec }"/></td>
-		</tr>
-		<tr class="info">
-			<th>课程库存:</th>
-			<td><input type="text" name="coursesStorage" id="coursesStorage" class="input_txt" value="${courses.coursesStorage }"/></td>
-		</tr>
-		<tr class="info">
-			<th>课程主图:</th>
-			<td><input type="text" name="coursesImage" id="coursesImage" class="input_txt" value="${courses.coursesImage }"/></td>
+			<th>课程描述:</th>
+			<td><input type="text" name="description" id="description" class="input_txt" value="${course.description }"/></td>
 		</tr>
 		<tr class="info">
 			<th>课程状态:</th>
 			<td>
-				<select name="coursesState" id="coursesState" class="input_txt">
+				<select name="status" id="status" class="input_txt">
 					<c:forEach items="${coursesStateList }" var="code">
 						<c:choose>
-							<c:when test="${code.code == courses.coursesState }">
+							<c:when test="${code.code == course.status }">
 								<option value="${code.code }" selected="selected">${code.view }</option>
 							</c:when>
 							<c:otherwise>
@@ -101,37 +85,16 @@ body{width:100%;height:100%;background-color: #FFFFFF;text-align: center;}
 			</td>
 		</tr>
 		<tr class="info">
-			<th>课程审核:</th>
-			<td>
-				<select name="coursesVerify" id="coursesVerify" class="input_txt">
-					<c:forEach items="${coursesVerifyList }" var="code">
-						<c:choose>
-							<c:when test="${code.code == courses.coursesVerify }">
-								<option value="${code.code }" selected="selected">${code.view }</option>
-							</c:when>
-							<c:otherwise>
-								<option value="${code.code }">${code.view }</option>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-				</select>
-			</td>
-		</tr>
-		<tr class="info">
-			<th>课程添加时间:</th>
-			<td><input type="text" name="coursesAddtime" id="coursesAddtime" class="input_txt Wdate" value="<fmt:formatDate value="${courses.coursesAddtime }" pattern="yyyy-MM-dd HH:mm:ss"/>" onclick="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" readonly="readonly"/></td>
-		</tr>
-		<tr class="info">
-			<th>课程编辑时间:</th>
-			<td><input type="text" name="coursesEdittime" id="coursesEdittime" class="input_txt Wdate" value="<fmt:formatDate value="${courses.coursesEdittime }" pattern="yyyy-MM-dd HH:mm:ss"/>" onclick="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" readonly="readonly"/></td>
+			<th>课程发布时间:</th>
+			<td><input type="text" name="date" id="date" class="input_txt Wdate" value="<fmt:formatDate value="${course.date }" pattern="yyyy-MM-dd HH:mm:ss"/>" onclick="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" readonly="readonly"/></td>
 		</tr>
 		<tr class="info">
 			<th>课程推荐:</th>
 			<td>
-				<select name="coursesCommend" id="coursesCommend" class="input_txt">
+				<select name="recommend" id="recommend" class="input_txt">
 					<c:forEach items="${coursesCommendList }" var="code">
 						<c:choose>
-							<c:when test="${code.code == courses.coursesCommend }">
+							<c:when test="${code.code == course.recommend }">
 								<option value="${code.code }" selected="selected">${code.view }</option>
 							</c:when>
 							<c:otherwise>
@@ -142,22 +105,9 @@ body{width:100%;height:100%;background-color: #FFFFFF;text-align: center;}
 				</select>
 			</td>
 		</tr>
-		<tr class="info">
-			<th>学校分类id:</th>
-			<td><input type="text" name="coursesStcids" id="coursesStcids" class="input_txt" value="${courses.coursesStcids }"/></td>
-		</tr>
-		<tr class="info">
-			<th>好评星级:</th>
-			<td><input type="text" name="evaluationGoodStar" id="evaluationGoodStar" class="input_txt" value="${courses.evaluationGoodStar }"/></td>
-		</tr>
-		<tr class="info">
-			<th>评价数:</th>
-			<td><input type="text" name="evaluationCount" id="evaluationCount" class="input_txt" value="${courses.evaluationCount }"/></td>
-		</tr>
 	</table>
 	</form>
 	<iframe name="result" id="result" src="about:blank" frameborder="0" width="0" height="0"></iframe>
-	
 	<script type="text/javascript" src="../js/jquery-1.5.1.min.js"></script>
 	<script type="text/javascript" src="../js/datePicker/WdatePicker.js"></script>
 	<script type="text/javascript">
@@ -182,7 +132,6 @@ body{width:100%;height:100%;background-color: #FFFFFF;text-align: center;}
 			}
 			dg.cancel();
 		}
-		
 		function failed(){
 			alert("添加或修改失败！");
 		}
